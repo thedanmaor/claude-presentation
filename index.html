@@ -13,7 +13,7 @@
 :root {
   --r-background-color: #0f172a;
   --r-main-font: 'Inter', sans-serif;
-  --r-main-font-size: 36px;
+  --r-main-font-size: 18px;
   --r-main-color: #f8fafc;
   --r-heading-font: 'Inter', sans-serif;
   --r-heading-color: #f8fafc;
@@ -23,17 +23,20 @@
   --r-selection-background-color: #f59e0b44;
   --r-selection-color: #f8fafc;
 }
-.reveal { font-family: var(--r-main-font); }
+html, body { background: #0f172a !important; margin: 0; padding: 0; }
+.reveal { font-family: var(--r-main-font); background: #0f172a; color: #f8fafc; font-size: 18px; }
+.reveal .slides { background: #0f172a; }
+.reveal .slides section { background: #0f172a; overflow: hidden; box-sizing: border-box; }
 .reveal h1, .reveal h2 { color: var(--r-heading-color); line-height: 1.1; }
 .reveal h1 { font-size: 2.2em; }
-.reveal h2 { font-size: 1.6em; }
-.reveal h3 { font-size: 1.1em; color: #f59e0b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
-.reveal p, .reveal li { color: #cbd5e1; line-height: 1.6; }
+.reveal h2 { font-size: 1.5em; margin-bottom: 6px; }
+.reveal h3 { font-size: 0.8em; color: #f59e0b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.reveal p, .reveal li { color: #cbd5e1; line-height: 1.35; font-size: 0.75em; margin: 3px 0; }
 .reveal strong { color: #f8fafc; }
-.reveal code { font-family: 'JetBrains Mono', monospace; background: #1e293b; color: #f59e0b; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
-.reveal pre code { background: #0a0a0a; color: #4ade80; padding: 16px; border-radius: 8px; font-size: 0.75em; border: 1px solid #22c55e33; }
+.reveal code { font-family: 'JetBrains Mono', monospace; background: #1e293b; color: #f59e0b; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+.reveal pre code { background: #0a0a0a; color: #4ade80; padding: 10px; border-radius: 8px; font-size: 0.65em; border: 1px solid #22c55e33; line-height: 1.35; }
 .reveal a { color: #f59e0b; }
-.reveal .slides section { text-align: left; padding: 20px 60px; }
+.reveal .slides section { text-align: left; padding: 12px 45px; }
 
 /* ── Accent bar (top of every slide) ── */
 .reveal .slides section::before {
@@ -51,7 +54,7 @@
 }
 .terminal-slide h2 { color: #4ade80; font-family: 'JetBrains Mono', monospace; }
 .terminal-slide h3 { color: #22c55e; font-family: 'JetBrains Mono', monospace; }
-.terminal-slide p, .terminal-slide li { color: #a3e635; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+.terminal-slide p, .terminal-slide li { color: #a3e635; font-family: 'JetBrains Mono', monospace; font-size: 0.65em; line-height: 1.3; }
 .terminal-slide .prompt { color: #22c55e; }
 .terminal-slide .prompt::before { content: '$ '; color: #4ade80; }
 .terminal-slide::before { background: linear-gradient(90deg, #22c55e, #4ade80, #86efac) !important; }
@@ -71,18 +74,19 @@
 .tag.violet { border-color: #7c3aed55; color: #a78bfa; }
 
 /* ── Cards grid ── */
-.cards-grid { display: grid; gap: 16px; margin-top: 20px; }
+.cards-grid { display: grid; gap: 8px; margin-top: 10px; }
 .cards-grid.cols-2 { grid-template-columns: 1fr 1fr; }
 .cards-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-.card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px; }
-.card h4 { color: #f59e0b; font-size: 0.75em; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.08em; }
-.card p { color: #94a3b8; font-size: 0.65em; margin: 0; line-height: 1.5; }
-.card .install { font-family: 'JetBrains Mono', monospace; color: #4ade80; font-size: 0.6em; margin-top: 8px; }
+.card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px; }
+.card h4 { color: #f59e0b; font-size: 0.65em; margin: 0 0 3px; text-transform: uppercase; letter-spacing: 0.08em; }
+.card p { color: #94a3b8; font-size: 0.6em; margin: 0; line-height: 1.3; }
+.card .install { font-family: 'JetBrains Mono', monospace; color: #4ade80; font-size: 0.58em; margin-top: 4px; }
+.three-col .card p { font-size: 0.58em; }
 
 /* ── Comparison table ── */
-.compare-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin-top: 16px; }
-.compare-table th { background: #1e293b; color: #f59e0b; padding: 8px 12px; text-align: left; border: 1px solid #334155; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
-.compare-table td { padding: 8px 12px; border: 1px solid #1e293b; color: #cbd5e1; vertical-align: top; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.6em; margin-top: 8px; }
+.compare-table th { background: #1e293b; color: #f59e0b; padding: 5px 8px; text-align: left; border: 1px solid #334155; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
+.compare-table td { padding: 4px 6px; border: 1px solid #1e293b; color: #cbd5e1; vertical-align: middle; }
 .compare-table tr:nth-child(even) td { background: #0f172a; }
 .compare-table tr:nth-child(odd) td { background: #111827; }
 .compare-table td.highlight { color: #f59e0b; font-weight: 700; }
@@ -90,16 +94,16 @@
 .compare-table td.muted { color: #475569; }
 
 /* ── Two-column layout ── */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: start; }
 
 /* ── Install command ── */
-.install { font-family: 'JetBrains Mono', monospace; color: #4ade80; font-size: 0.6em; margin-top: 8px; display: block; }
+.install { font-family: 'JetBrains Mono', monospace; color: #4ade80; font-size: 0.6em; margin-top: 6px; display: block; }
 
 /* ── Q&A slide ── */
-.qa-slide h1 { font-size: 3.5em; color: #f59e0b; text-align: center; margin-top: 60px; }
-.qa-links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 30px; }
-.qa-links a { background: #1e293b; border: 1px solid #f59e0b44; color: #f59e0b; padding: 8px 18px; border-radius: 6px; font-size: 0.65em; font-family: 'JetBrains Mono', monospace; text-decoration: none; }
+.qa-slide h1 { font-size: 3em; color: #f59e0b; text-align: center; margin-top: 40px; }
+.qa-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 24px; }
+.qa-links a { background: #1e293b; border: 1px solid #f59e0b44; color: #f59e0b; padding: 7px 16px; border-radius: 6px; font-size: 0.65em; font-family: 'JetBrains Mono', monospace; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -112,7 +116,7 @@
 
 <!-- Slide 1: Title -->
 <section>
-  <h3>Dan Maor · 2026</h3>
+  <h3>dan Maor · Infra TSE · 2026</h3>
   <h1>Supercharged<br/>Development<br/><span class="amber">with Claude</span></h1>
   <p class="muted" style="margin-top:40px">Claude Code · Plugins · Real Projects · The Meta Moment</p>
 </section>
@@ -121,7 +125,7 @@
 <section>
   <h3>The Problem</h3>
   <h2>Dev Friction Is Real</h2>
-  <div class="cards-grid cols-2" style="margin-top:24px">
+  <div class="cards-grid cols-2" style="margin-top:8px">
     <div class="card">
       <h4>Context Switching</h4>
       <p>Docs, Stack Overflow, GitHub, GPT — open 12 tabs to answer one question</p>
@@ -149,14 +153,14 @@
 <section>
   <h3>Enter Claude</h3>
   <h2>What is <span class="amber">Anthropic</span>?</h2>
-  <div class="two-col" style="margin-top:24px">
+  <div class="two-col" style="margin-top:8px">
     <div>
       <p><strong>Anthropic</strong> is an AI safety company founded in 2021 by former OpenAI researchers, including Dario and Daniela Amodei.</p>
-      <p style="margin-top:16px">Mission: build AI systems that are <strong>safe</strong>, <strong>beneficial</strong>, and <strong>understandable</strong>.</p>
-      <p style="margin-top:16px"><strong>Claude</strong> is their flagship AI assistant — named after Claude Shannon, father of information theory.</p>
+      <p style="margin-top:8px">Mission: build AI systems that are <strong>safe</strong>, <strong>beneficial</strong>, and <strong>understandable</strong>.</p>
+      <p style="margin-top:8px"><strong>Claude</strong> is their flagship AI assistant — named after Claude Shannon, father of information theory.</p>
     </div>
     <div>
-      <div class="card" style="margin-bottom:12px">
+      <div class="card" style="margin-bottom:8px">
         <h4>Constitutional AI</h4>
         <p>Claude is trained with a set of principles ("constitution") guiding its values and behavior — not just RLHF</p>
       </div>
@@ -172,7 +176,7 @@
 <section>
   <h3>The Landscape</h3>
   <h2>Claude vs The Field</h2>
-  <table class="compare-table" style="margin-top:20px">
+  <table class="compare-table" style="margin-top:8px">
     <thead>
       <tr><th>Model</th><th>Made by</th><th>Coding</th><th>Context</th><th>Open?</th><th>Strength</th></tr>
     </thead>
@@ -210,7 +214,7 @@
 <section>
   <h3>What Makes Claude Different</h3>
   <h2>Built for <span class="amber">Depth</span></h2>
-  <div class="three-col" style="margin-top:24px">
+  <div class="three-col" style="margin-top:8px">
     <div class="card">
       <h4>Coding Excellence</h4>
       <p>Consistently top-ranked on SWE-bench. Writes clean, idiomatic code. Understands large codebases holistically.</p>
@@ -242,7 +246,7 @@
 <section>
   <h3>The Neighbourhood</h3>
   <h2>Adjacent <span class="amber">Tools</span></h2>
-  <table class="compare-table" style="margin-top:20px">
+  <table class="compare-table" style="margin-top:8px">
     <thead>
       <tr><th>Tool</th><th>By</th><th>Type</th><th>How it differs from Claude Code</th></tr>
     </thead>
@@ -283,20 +287,26 @@
 <section class="terminal-slide">
   <h3>$ claude --intro</h3>
   <h2>Claude Code</h2>
-  <div style="margin-top:24px">
-    <p class="prompt">what is it</p>
-    <p style="margin-left:20px;color:#cbd5e1">An agentic CLI that runs in your terminal.</p>
-    <p class="prompt" style="margin-top:16px">what can it do</p>
-    <div style="margin-left:20px;margin-top:8px">
-      <p>📁 &nbsp;Read and write any file in your project</p>
-      <p>⚡ &nbsp;Execute bash commands, run tests, start servers</p>
-      <p>🌐 &nbsp;Fetch web pages, call APIs, search the web</p>
-      <p>🔁 &nbsp;Multi-step agentic tasks — plan → execute → verify</p>
-      <p>🧩 &nbsp;Extend with plugins and MCP servers</p>
+  <div class="two-col" style="margin-top:8px;gap:24px">
+    <div>
+      <p class="prompt">what is it</p>
+      <p style="margin-left:20px;color:#cbd5e1;font-size:0.72em">Agentic CLI that runs in your terminal.</p>
+      <p class="prompt" style="margin-top:10px">what can it do</p>
+      <div style="margin-left:20px;margin-top:4px">
+        <p style="font-size:0.72em">📁 &nbsp;Read and write any file</p>
+        <p style="font-size:0.72em">⚡ &nbsp;Execute bash, run tests, start servers</p>
+        <p style="font-size:0.72em">🌐 &nbsp;Fetch web pages, call APIs</p>
+        <p style="font-size:0.72em">🔁 &nbsp;Multi-step: plan → execute → verify</p>
+        <p style="font-size:0.72em">🧩 &nbsp;Extend with plugins and MCP servers</p>
+      </div>
     </div>
-    <p class="prompt" style="margin-top:16px">how do i install it</p>
-    <pre><code>npm install -g @anthropic-ai/claude-code
+    <div>
+      <p class="prompt">how do i install it</p>
+      <pre style="margin-top:6px"><code>npm install -g @anthropic-ai/claude-code
 claude</code></pre>
+      <p class="prompt" style="margin-top:10px">where does it run</p>
+      <p style="margin-left:20px;color:#cbd5e1;font-size:0.72em">Any terminal. Mac, Linux, Windows (WSL).<br/>Works in VS Code, JetBrains, web.</p>
+    </div>
   </div>
 </section>
 
@@ -553,7 +563,6 @@ Claude:
     <span class="tag">swift-lsp v1.0.0</span>
     <span class="tag">security-guidance v2.0.0</span>
     <span class="tag">skill-creator</span>
-    <span class="tag violet">claude-powerline v1.26.0</span>
   </div>
   <div class="cards-grid cols-3" style="margin-top:20px">
     <div class="card" style="border-color:#f59e0b44">
@@ -711,6 +720,11 @@ architecture → opus</code></pre>
       <p class="install">/install security-guidance@claude-plugins-official</p>
     </div>
     <div class="card">
+      <h4>Remotion</h4>
+      <p>Create videos with React. Code-first video composition, perfect for music videos, animations, demos.</p>
+      <p class="install">/install remotion@remotion-ai</p>
+    </div>
+    <div class="card">
       <h4>Skill Creator</h4>
       <p>Create and improve your own skills from scratch. Measure skill performance. Build your personal automation library.</p>
       <p class="install">/install skill-creator@claude-plugins-official</p>
@@ -739,18 +753,18 @@ architecture → opus</code></pre>
     </div>
     <div class="card">
       <h4>LiveTrigger</h4>
-      <p>macOS live performance video &amp; audio triggering system for live bands. Zero-latency MIDI → sample playback bypassing SD card.</p>
+      <p>macOS live performance system. Plays audio & video segments, layers video art. Zero-latency MIDI → playback with overlays.</p>
       <p class="muted" style="margin-top:6px">macOS · MIDI · SwiftUI · ~2.7ms latency</p>
+    </div>
+    <div class="card">
+      <h4>Closing-Time</h4>
+      <p>Music video generator. Record audio, compose with Claude, render visuals with Remotion. AI-powered music video creation.</p>
+      <p class="muted" style="margin-top:6px">Remotion · React · Claude composition · music video</p>
     </div>
     <div class="card">
       <h4>SamplePad Manager OSX</h4>
       <p>Native macOS app for managing Alesis SamplePad Pro. USB MIDI controller interface, sample library management, live gig mode.</p>
       <p class="muted" style="margin-top:6px">Swift · SwiftUI · Core Data · MIDI</p>
-    </div>
-    <div class="card">
-      <h4>Petify</h4>
-      <p>AI-powered pet management tool. Health tracking, vet appointment intelligence, breed-aware recommendations.</p>
-      <p class="muted" style="margin-top:6px">AI · mobile · pet health data</p>
     </div>
   </div>
 </section>
@@ -858,17 +872,12 @@ architecture → opus</code></pre>
       <p style="text-align:center;font-size:0.6em">Implementation plan with exact code</p>
     </div>
     <div style="color:#7c3aed;font-size:1.5em;padding:0 6px">→</div>
-    <div class="card" style="background:#12082a;border-color:#7c3aed44;flex:1;min-width:100px;text-align:center;padding:12px 8px">
-      <h4 style="color:#a78bfa;text-align:center;font-size:0.65em">5. Build</h4>
-      <p style="text-align:center;font-size:0.6em">Claude executes, commits each task</p>
-    </div>
-    <div style="color:#7c3aed;font-size:1.5em;padding:0 6px">→</div>
     <div class="card" style="background:#12082a;border-color:#f59e0b55;flex:1;min-width:100px;text-align:center;padding:12px 8px">
       <h4 style="color:#f59e0b;text-align:center;font-size:0.65em">6. This Slide</h4>
       <p style="text-align:center;font-size:0.6em">👋</p>
     </div>
   </div>
-  <p style="margin-top:20px;color:#7c3aed;font-size:0.7em;text-align:center">Total time from first prompt to finished presentation: one session</p>
+  <p style="margin-top:20px;color:#7c3aed;font-size:0.7em;text-align:center">Total time from first prompt to finished presentation: ~20 mins</p>
 </section>
 
 <!-- ═══════════════════════════════════════
@@ -878,16 +887,22 @@ architecture → opus</code></pre>
 <!-- Slide 27: Q&A -->
 <section class="qa-slide">
   <h1>Questions?</h1>
-  <div class="qa-links">
+  <p style="text-align:center;margin-top:40px;color:#a78bfa;font-size:0.85em">Let's talk about Claude, AI, or building faster.</p>
+  <p style="text-align:center;margin-top:40px;color:#475569;font-size:0.65em">dan Maor, Infra TSE · dan.maor@mongodb.com</p>
+</section>
+
+<!-- Slide 28: Resources -->
+<section class="qa-slide">
+  <h1 style="font-size:2.2em">Resources</h1>
+  <p style="text-align:center;margin-top:12px;color:#cbd5e1;font-size:0.75em">Click any link below to explore</p>
+  <div class="qa-links" style="margin-top:16px">
     <a href="https://claude.ai">claude.ai</a>
     <a href="https://claude.ai/code">claude.ai/code</a>
     <a href="https://anthropic.com/pricing">anthropic.com/pricing</a>
     <a href="https://github.com/obra/superpowers">github: superpowers</a>
     <a href="https://github.com/EveryInc/compound-engineering-plugin">github: compound-engineering</a>
     <a href="https://github.com/austinmarchese/buildpartner-plugin">github: buildpartner</a>
-    <a href="https://github.com/Owloops/claude-powerline">github: claude-powerline</a>
   </div>
-  <p style="text-align:center;margin-top:40px;color:#475569;font-size:0.65em">Dan Maor · maor.dan@gmail.com</p>
 </section>
 
 </div>
@@ -901,6 +916,11 @@ Reveal.initialize({
   controls: true,
   progress: true,
   slideNumber: 'c/t',
+  width: 1200,
+  height: 750,
+  margin: 0.04,
+  minScale: 0.2,
+  maxScale: 2.0,
   plugins: []
 });
 </script>
