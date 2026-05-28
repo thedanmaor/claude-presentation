@@ -34,7 +34,9 @@ html, body { background: #0f172a !important; margin: 0; padding: 0; }
 .reveal p, .reveal li { color: #cbd5e1; line-height: 1.35; font-size: 0.75em; margin: 3px 0; }
 .reveal strong { color: #f8fafc; }
 .reveal code { font-family: 'JetBrains Mono', monospace; background: #1e293b; color: #f59e0b; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
-.reveal pre code { background: #0a0a0a; color: #4ade80; padding: 10px; border-radius: 8px; font-size: 0.65em; border: 1px solid #22c55e33; line-height: 1.35; }
+.reveal pre { margin: 6px 0; box-shadow: none; }
+.reveal pre code { display: block; background: #0a0a0a; color: #4ade80; padding: 12px 14px; border-radius: 8px; font-size: 0.7em; border: 1px solid #22c55e33; line-height: 1.7; white-space: pre; overflow-x: auto; font-family: 'JetBrains Mono', monospace; }
+.terminal-slide pre code { background: #050505; }
 .reveal a { color: #f59e0b; }
 .reveal .slides section { text-align: left; padding: 12px 45px; }
 
@@ -104,6 +106,10 @@ html, body { background: #0f172a !important; margin: 0; padding: 0; }
 .qa-slide h1 { font-size: 3em; color: #f59e0b; text-align: center; margin-top: 40px; }
 .qa-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 24px; }
 .qa-links a { background: #1e293b; border: 1px solid #f59e0b44; color: #f59e0b; padding: 7px 16px; border-radius: 6px; font-size: 0.65em; font-family: 'JetBrains Mono', monospace; text-decoration: none; }
+
+/* ── Iframe styling ── */
+iframe { color: #f59e0b !important; }
+iframe body, iframe * { color: #f59e0b !important; }
 </style>
 </head>
 <body>
@@ -287,25 +293,25 @@ html, body { background: #0f172a !important; margin: 0; padding: 0; }
 <section class="terminal-slide">
   <h3>$ claude --intro</h3>
   <h2>Claude Code</h2>
-  <div class="two-col" style="margin-top:8px;gap:24px">
+  <div class="two-col" style="margin-top:6px;gap:18px">
     <div>
       <p class="prompt">what is it</p>
-      <p style="margin-left:20px;color:#cbd5e1;font-size:0.72em">Agentic CLI that runs in your terminal.</p>
-      <p class="prompt" style="margin-top:10px">what can it do</p>
-      <div style="margin-left:20px;margin-top:4px">
-        <p style="font-size:0.72em">📁 &nbsp;Read and write any file</p>
-        <p style="font-size:0.72em">⚡ &nbsp;Execute bash, run tests, start servers</p>
-        <p style="font-size:0.72em">🌐 &nbsp;Fetch web pages, call APIs</p>
-        <p style="font-size:0.72em">🔁 &nbsp;Multi-step: plan → execute → verify</p>
-        <p style="font-size:0.72em">🧩 &nbsp;Extend with plugins and MCP servers</p>
+      <p style="margin-left:16px;color:#cbd5e1;font-size:0.58em">Agentic CLI running in your terminal.</p>
+      <p class="prompt" style="margin-top:6px">what can it do</p>
+      <div style="margin-left:16px;margin-top:2px">
+        <p style="font-size:0.58em;white-space:nowrap">📁 Read and write any file</p>
+        <p style="font-size:0.58em;white-space:nowrap">⚡ Execute bash, run tests, start servers</p>
+        <p style="font-size:0.58em;white-space:nowrap">🌐 Fetch web pages, call APIs</p>
+        <p style="font-size:0.58em;white-space:nowrap">🔁 Multi-step: plan → execute → verify</p>
+        <p style="font-size:0.58em;white-space:nowrap">🧩 Extend with plugins and MCP servers</p>
       </div>
     </div>
     <div>
       <p class="prompt">how do i install it</p>
-      <pre style="margin-top:6px"><code>npm install -g @anthropic-ai/claude-code
+      <pre style="margin-top:4px"><code>npm install -g @anthropic-ai/claude-code
 claude</code></pre>
-      <p class="prompt" style="margin-top:10px">where does it run</p>
-      <p style="margin-left:20px;color:#cbd5e1;font-size:0.72em">Any terminal. Mac, Linux, Windows (WSL).<br/>Works in VS Code, JetBrains, web.</p>
+      <p class="prompt" style="margin-top:8px">where does it run</p>
+      <p style="margin-left:16px;color:#cbd5e1;font-size:0.58em">Any terminal. Mac, Linux, Windows (WSL).<br/>VS Code, JetBrains, web.</p>
     </div>
   </div>
 </section>
@@ -314,17 +320,17 @@ claude</code></pre>
 <section class="terminal-slide">
   <h3>$ claude --capabilities</h3>
   <h2>Agentic <span style="color:#f59e0b">Coding</span></h2>
-  <div class="two-col" style="margin-top:20px">
+  <div class="two-col" style="margin-top:12px;gap:18px">
     <div>
       <p class="prompt">tools available</p>
-      <p style="margin-left:20px;margin-top:8px">Read · Write · Edit · Bash · WebFetch</p>
-      <p style="margin-left:20px">WebSearch · Agent · TodoWrite · LSP</p>
-      <p class="prompt" style="margin-top:20px">mcp servers</p>
-      <p style="margin-left:20px;margin-top:8px">Connect any MCP server — databases,<br/>APIs, Slack, GitHub, custom tools</p>
+      <p style="margin-left:16px;margin-top:4px;font-size:0.58em;white-space:nowrap">Read · Write · Edit · Bash · WebFetch</p>
+      <p style="margin-left:16px;font-size:0.58em;white-space:nowrap">WebSearch · Agent · TodoWrite · LSP</p>
+      <p class="prompt" style="margin-top:12px">mcp servers</p>
+      <p style="margin-left:16px;margin-top:4px;font-size:0.58em">Connect any MCP server — databases,<br/>APIs, Slack, GitHub, custom tools</p>
     </div>
     <div>
       <p class="prompt">example task</p>
-      <pre style="margin-top:8px"><code style="font-size:0.7em">&gt; Add auth to the API,
+      <pre style="margin-top:4px"><code style="font-size:0.55em">&gt; Add auth to the API,
   write tests, open a PR
 
 Claude:
@@ -466,12 +472,12 @@ Claude:
       </tr>
       <tr>
         <td style="color:#fbbf24">Sonnet 4.6</td>
-        <td class="highlight">$3.00</td><td class="highlight">$15.00</td><td>200k</td>
+        <td class="highlight">$3.00</td><td class="highlight">$15.00</td><td class="green">1M</td>
         <td class="muted">Daily dev, feature work</td>
       </tr>
       <tr>
         <td style="color:#a78bfa">Opus 4.7</td>
-        <td style="color:#f87171">$15.00</td><td style="color:#f87171">$75.00</td><td>200k</td>
+        <td style="color:#f87171">$15.00</td><td style="color:#f87171">$75.00</td><td class="green">1M</td>
         <td class="muted">Architecture, deep analysis</td>
       </tr>
     </tbody>
@@ -534,8 +540,15 @@ Claude:
         <p>At $20/mo with Sonnet 4.6 on Pro, typical daily dev work (feature + debug + review) stays well within limits. Heavy agentic multi-file sessions hit limits faster — use Haiku for simple tasks to stretch your budget.</p>
       </div>
       <div class="card" style="margin-top:12px">
-        <h4>Smart Router tip</h4>
-        <p>Auto-route simple tasks to Haiku, keep Sonnet/Opus for real work. Multiplies effective token budget.</p>
+        <h4>Stretch the budget</h4>
+        <p>Stack token-saving plugins to multiply your effective limit:</p>
+        <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">
+          <span class="tag amber" style="font-size:0.55em">smart-router → cheapest model</span>
+          <span class="tag amber" style="font-size:0.55em">caveman → ~75% shorter output</span>
+          <span class="tag amber" style="font-size:0.55em">morph → smart compaction</span>
+          <span class="tag amber" style="font-size:0.55em">exa → semantic search</span>
+          <span class="tag amber" style="font-size:0.55em">firecrawl → targeted scrape</span>
+        </div>
       </div>
     </div>
   </div>
@@ -548,7 +561,7 @@ Claude:
 <!-- Slide 16: All 14 plugins overview -->
 <section>
   <h3>My Setup</h3>
-  <h2><span class="amber">14 Plugins</span> Installed</h2>
+  <h2><span class="amber">13 Plugins</span> Installed</h2>
   <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px">
     <span class="tag amber">superpowers v5.1.0</span>
     <span class="tag amber">caveman v18e453</span>
@@ -575,7 +588,7 @@ Claude:
     </div>
     <div class="card">
       <h4>Design &amp; Security</h4>
-      <p>ui-ux-pro-max, frontend-design, security-guidance, skill-creator, buildpartner, swift-lsp, claude-powerline</p>
+      <p>ui-ux-pro-max, frontend-design, security-guidance, skill-creator, buildpartner, swift-lsp</p>
     </div>
   </div>
 </section>
@@ -614,14 +627,13 @@ Claude:
 
 <!-- Slide 18: Caveman + Smart Router (terminal) -->
 <section class="terminal-slide">
-  <h3>$ /caveman ultra &amp;&amp; /smart-router</h3>
+  <h3>$ /caveman &amp;&amp; /smart-router</h3>
   <h2>Token <span style="color:#f59e0b">Optimisation</span></h2>
-  <div class="two-col" style="margin-top:20px">
+  <div class="two-col" style="margin-top:8px;gap:18px">
     <div>
-      <p style="color:#fbbf24;font-weight:700">Caveman Mode</p>
-      <p class="prompt" style="margin-top:8px">what it does</p>
-      <p style="margin-left:20px">Compresses Claude's responses ~75% by removing filler words, articles, pleasantries. All technical substance preserved.</p>
-      <pre style="margin-top:12px"><code style="font-size:0.65em">Normal: "Sure! I'd be happy to help
+      <p style="color:#fbbf24;font-weight:700;font-size:0.7em">Caveman Mode</p>
+      <p style="margin-top:4px;font-size:0.55em">Compresses output ~75%. Drops filler, articles, pleasantries. Technical substance preserved.</p>
+      <pre style="margin-top:6px"><code style="font-size:0.55em">Normal: "Sure! I'd be happy to help
 you with that. The issue you're
 experiencing is likely caused by..."
 
@@ -629,15 +641,14 @@ Caveman: "Bug in auth middleware.
 Token check: use &lt; not &lt;=. Fix:"</code></pre>
     </div>
     <div>
-      <p style="color:#fbbf24;font-weight:700">Smart Model Router</p>
-      <p class="prompt" style="margin-top:8px">auto-routing rules</p>
-      <pre style="margin-top:8px"><code style="font-size:0.7em">git rename  → haiku
+      <p style="color:#fbbf24;font-weight:700;font-size:0.7em">Smart Model Router</p>
+      <p style="margin-top:4px;font-size:0.55em">Auto-picks cheapest capable model per task.</p>
+      <pre style="margin-top:6px"><code>git rename  → haiku
 quick lookup → haiku
 feature work → sonnet
 architecture → opus</code></pre>
-      <p class="prompt" style="margin-top:12px">result</p>
-      <p style="margin-left:20px">No config per-task.<br/>Cheapest model that can do the job.</p>
-      <p class="install" style="margin-top:12px">/install smart-model-router@smart-model-router</p>
+      <p style="margin-top:6px;font-size:0.55em">No config per-task. Just works.</p>
+      <p class="install" style="margin-top:6px;font-size:0.52em">/install smart-model-router@smart-model-router</p>
     </div>
   </div>
 </section>
@@ -729,10 +740,65 @@ architecture → opus</code></pre>
       <p>Create and improve your own skills from scratch. Measure skill performance. Build your personal automation library.</p>
       <p class="install">/install skill-creator@claude-plugins-official</p>
     </div>
-    <div class="card">
-      <h4>Claude Powerline</h4>
-      <p>Status bar for Claude Code showing active mode, model, token usage. Wizard-based setup. Visual feedback at all times.</p>
-      <p class="install">/install claude-powerline@claude-powerline</p>
+  </div>
+</section>
+
+<!-- Slide 22: Karpathy Skill -->
+<section>
+  <h3>Skill Spotlight</h3>
+  <h2>The <span class="amber">Karpathy</span> Skill</h2>
+  <div class="two-col" style="margin-top:12px">
+    <div>
+      <p><strong>What is it</strong></p>
+      <p style="margin-top:4px">A custom skill inspired by Andrej Karpathy's coding philosophy — "software 2.0" style: simple, readable, no premature abstraction, build the dumbest thing that works first.</p>
+      <p style="margin-top:10px"><strong>Why it exists</strong></p>
+      <p style="margin-top:4px">LLMs default to over-engineering — unnecessary classes, speculative flexibility, defensive error handling for impossible cases. Karpathy mode forces minimal, idiomatic code.</p>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:8px">
+        <h4>What it does</h4>
+        <p>Injects rules before every implementation:</p>
+        <ul style="margin-top:4px;font-size:0.6em;color:#94a3b8">
+          <li>Min code to solve problem — nothing speculative</li>
+          <li>No abstractions for single-use code</li>
+          <li>No "flexibility" not requested</li>
+          <li>200 lines could be 50 → rewrite</li>
+          <li>Match existing style, even if you'd do different</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:#f59e0b66">
+        <h4>The result</h4>
+        <p>Fewer rewrites. Less diff churn. Code that reads like a senior engineer wrote it on a good day — not a junior trying to impress.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 23: CLAUDE.md config -->
+<section>
+  <h3>My Config</h3>
+  <h2><span class="amber">CLAUDE.md</span> — Persistent Rules</h2>
+  <div class="two-col" style="margin-top:12px">
+    <div>
+      <p>Global instructions Claude loads on every session. Lives at <code>~/.claude/CLAUDE.md</code>. Merges with project-level <code>CLAUDE.md</code> if present.</p>
+      <p style="margin-top:10px"><strong>My 5 rules:</strong></p>
+      <ol style="margin-top:4px">
+        <li><strong>Think Before Coding</strong> — surface assumptions, no silent picks, ask when unclear</li>
+        <li><strong>Simplicity First</strong> — min code, no speculative features</li>
+        <li><strong>Surgical Changes</strong> — touch only what must, no drive-by refactors</li>
+        <li><strong>Goal-Driven Execution</strong> — verifiable success criteria, loop until met</li>
+        <li><strong>Research Before Building</strong> — search libs/APIs first, PRD-style report, then build</li>
+      </ol>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:8px">
+        <h4>Why it works</h4>
+        <p>Without rules, Claude drifts: invents features, over-abstracts, "improves" adjacent code. CLAUDE.md is the leash — strong defaults that survive across every conversation.</p>
+      </div>
+      <div class="card" style="border-color:#f59e0b66">
+        <h4>Pro tip</h4>
+        <p>Pair with caveman mode (compact output) + smart-router (cheap models for trivial work). Three layers of discipline = predictable, cheap, high-quality output.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -741,7 +807,7 @@ architecture → opus</code></pre>
      SECTION 6: REAL PROJECTS
 ═══════════════════════════════════════ -->
 
-<!-- Slide 22: Projects built -->
+<!-- Slide 24: Projects built -->
 <section>
   <h3>Built With Claude</h3>
   <h2>Real <span class="amber">Projects</span></h2>
@@ -833,12 +899,12 @@ architecture → opus</code></pre>
       <ul style="margin-top:12px;color:#c4b5fd">
         <li>Picked the slate/amber theme ← live browser mockup</li>
         <li>Chose the Problem→Solution arc ← live browser mockup</li>
-        <li>Approved the 27-slide structure ← live browser mockup</li>
+        <li>Approved the 30-slide structure ← live browser mockup</li>
         <li>Auto-generated design spec, self-reviewed</li>
         <li>Wrote implementation plan with exact code per task</li>
         <li>Built every slide in this session</li>
       </ul>
-      <p style="margin-top:16px;color:#7c3aed;font-size:0.75em">Total time: one conversation</p>
+      <p style="margin-top:16px;color:#c4b5fd;font-size:0.75em">Total time: ~20 mins</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <iframe src=".superpowers/brainstorm/1988-1779959595/content/visual-theme.html" style="width:100%;height:160px;border-radius:6px;border:1px solid #7c3aed44;pointer-events:none" scrolling="no"></iframe>

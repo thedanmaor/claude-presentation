@@ -1,0 +1,66 @@
+<h2>Presentation Structure — Pick an Approach</h2>
+<p class="subtitle">~25-30 slides · Dev audience · Slate/Amber theme · Meta-process slide near end</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="narrative" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:14px;font-family:'Inter',sans-serif;min-height:160px;border-radius:6px;font-size:11px;color:#94a3b8;">
+      <div style="display:flex;flex-wrap:wrap;gap:4px">
+        <span style="background:#1e293b;border:1px solid #f59e0b33;color:#f59e0b;padding:2px 7px;border-radius:3px;font-size:10px">Title</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">What is Claude</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">AI Landscape</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Competitors</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Models</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Tokens &amp; Pricing</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Plans</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Claude Code CLI</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Plugins</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">My Plugins</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">My Skills</span>
+        <span style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:2px 7px;border-radius:3px;font-size:10px">Projects Built</span>
+        <span style="background:#1e293b;border:1px solid #7c3aed55;color:#a78bfa;padding:2px 7px;border-radius:3px;font-size:10px">🤯 Meta Slide</span>
+        <span style="background:#1e293b;border:1px solid #f59e0b33;color:#f59e0b;padding:2px 7px;border-radius:3px;font-size:10px">Q&amp;A</span>
+      </div>
+      <div style="margin-top:10px;color:#475569;font-size:9px">LINEAR — each section flows into the next</div>
+    </div>
+    <div class="card-body">
+      <h3>A · Linear Narrative <span style="color:#f59e0b;font-size:11px">(Recommended)</span></h3>
+      <p>Tell the Claude story start to finish. Build context before showing power. Natural arc: what → how much → my setup → what I built.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="layers" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:14px;font-family:'Inter',sans-serif;min-height:160px;border-radius:6px;font-size:11px;">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="background:#1e293b;border-left:3px solid #f59e0b;padding:4px 8px;color:#f8fafc;border-radius:0 3px 3px 0;font-size:10px">🔵 Foundation — What is Claude / LLMs / AI space</div>
+        <div style="background:#1e293b;border-left:3px solid #f59e0b99;padding:4px 8px;color:#f8fafc;border-radius:0 3px 3px 0;font-size:10px">🟡 Economics — Models, tokens, pricing, plans</div>
+        <div style="background:#1e293b;border-left:3px solid #f59e0b66;padding:4px 8px;color:#f8fafc;border-radius:0 3px 3px 0;font-size:10px">🟠 Tooling — Claude Code CLI + plugin ecosystem</div>
+        <div style="background:#1e293b;border-left:3px solid #f59e0b44;padding:4px 8px;color:#f8fafc;border-radius:0 3px 3px 0;font-size:10px">🔴 My Stack — Personal plugins, skills, config</div>
+        <div style="background:#1e293b;border-left:3px solid #a78bfa;padding:4px 8px;color:#a78bfa;border-radius:0 3px 3px 0;font-size:10px">🤯 Meta — How this presentation was made</div>
+        <div style="background:#1e293b;border-left:3px solid #475569;padding:4px 8px;color:#94a3b8;border-radius:0 3px 3px 0;font-size:10px">Q&amp;A</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · Layered Pyramid</h3>
+      <p>Build from fundamentals up. Works well if audience has very different starting knowledge. More "teaching" feel.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="problem-solution" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:14px;font-family:'Inter',sans-serif;min-height:160px;border-radius:6px;font-size:11px;">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="background:#1e293b;border:1px solid #ef444433;color:#f87171;padding:4px 8px;border-radius:3px;font-size:10px">😤 Dev friction today — context switching, slow tools</div>
+        <div style="background:#1e293b;border:1px solid #f59e0b44;color:#f59e0b;padding:4px 8px;border-radius:3px;font-size:10px">⚡ Enter Claude — what it is, how it differs</div>
+        <div style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:4px 8px;border-radius:3px;font-size:10px">💰 The cost — models, tokens, plans</div>
+        <div style="background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:4px 8px;border-radius:3px;font-size:10px">🔧 The power — Claude Code + plugins</div>
+        <div style="background:#1e293b;border:1px solid #22c55e33;color:#4ade80;padding:4px 8px;border-radius:3px;font-size:10px">🚀 My setup — real results, real projects</div>
+        <div style="background:#1e293b;border:1px solid #a78bfa44;color:#a78bfa;padding:4px 8px;border-radius:3px;font-size:10px">🤯 Meta → Q&amp;A</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · Problem → Solution</h3>
+      <p>Hook with pain, deliver resolution. More persuasive arc. Works if you want to sell people on adopting Claude.</p>
+    </div>
+  </div>
+
+</div>

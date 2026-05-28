@@ -1,0 +1,106 @@
+<style>
+  body { background: #0d0817; color: #f8fafc; font-family: 'Inter', sans-serif; margin: 0; padding: 12px; }
+  h1, h2, h3, h4 { color: #f59e0b; margin: 4px 0; }
+  p, li, div { color: #cbd5e1; }
+  .subtitle { color: #f59e0b; }
+</style>
+<h2>Updated Slide Structure — 27 Slides · ~25 min</h2>
+<p class="subtitle">✅ Cost moved after Claude Code · ✅ Adjacent tools expanded</p>
+
+<style>
+.deck { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.section-block { background: #0f172a; border-radius: 8px; padding: 12px 16px; }
+.section-title { color: #f59e0b; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+.slides { display: flex; flex-wrap: wrap; gap: 6px; }
+.slide { background: #1e293b; border: 1px solid #334155; border-radius: 4px; padding: 5px 10px; font-size: 10px; color: #cbd5e1; }
+.slide.accent { border-color: #f59e0b44; color: #fbbf24; }
+.slide.special { border-color: #a78bfa55; color: #a78bfa; }
+.slide.terminal { border-color: #22c55e33; color: #4ade80; font-family: monospace; }
+.slide.qa { border-color: #f59e0b; color: #f59e0b; background: #1e293b; }
+.slide.changed { border-color: #38bdf866; color: #7dd3fc; }
+.count { color: #475569; font-size: 10px; float: right; }
+.badge { display:inline-block;background:#38bdf822;color:#7dd3fc;font-size:9px;border-radius:3px;padding:1px 5px;margin-left:6px;font-weight:700;border:1px solid #38bdf833; }
+</style>
+
+<div class="deck">
+
+  <div class="section-block">
+    <div class="section-title">1 · Hook <span class="count">2 slides</span></div>
+    <div class="slides">
+      <div class="slide accent">01 · Title — "Supercharged Dev with Claude"</div>
+      <div class="slide">02 · The Pain — dev friction today</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">2 · Enter Claude <span class="count">4 slides</span></div>
+    <div class="slides">
+      <div class="slide">03 · What is Anthropic / Claude</div>
+      <div class="slide">04 · AI Landscape — Claude vs GPT vs Gemini vs Llama</div>
+      <div class="slide">05 · What makes Claude different</div>
+      <div class="slide changed">06 · Adjacent tools — Cursor / Copilot / Codeium / <strong>OpenAI Codex</strong> / <strong>Google Jules</strong> <span class="badge">UPDATED</span></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">3 · Claude Code CLI <span class="count">4 slides</span> <span class="badge">MOVED UP</span></div>
+    <div class="slides">
+      <div class="slide terminal">07 · Claude Code — what it is</div>
+      <div class="slide terminal">08 · Agentic coding — tools, MCP, bash, filesystem</div>
+      <div class="slide">09 · Plugin ecosystem — how it works</div>
+      <div class="slide">10 · Plugin marketplace overview</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">4 · The Cost <span class="count">5 slides</span> <span class="badge">MOVED DOWN</span></div>
+    <div class="slides">
+      <div class="slide terminal">11 · Tokens explained</div>
+      <div class="slide terminal">12 · Models — Haiku / Sonnet / Opus</div>
+      <div class="slide terminal">13 · Claude 4 family + pricing table</div>
+      <div class="slide">14 · Plans — Free / Pro / API / Teams</div>
+      <div class="slide accent">15 · Pro plan deep dive ($20/mo)</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">5 · My Stack <span class="count">6 slides</span></div>
+    <div class="slides">
+      <div class="slide accent">16 · My 14 plugins — overview</div>
+      <div class="slide">17 · Superpowers — skills system + download link</div>
+      <div class="slide terminal">18 · Caveman + Smart Router — token savings demo</div>
+      <div class="slide">19 · Compound Engineering — review / research / design</div>
+      <div class="slide">20 · BuildPartner / Firecrawl / Morph / Codex</div>
+      <div class="slide">21 · UI-UX Pro Max / Security / Skill Creator</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">6 · Real Projects <span class="count">3 slides</span></div>
+    <div class="slides">
+      <div class="slide accent">22 · Projects built — RecipEasy / LiveTrigger / Petify / SamplePadManager</div>
+      <div class="slide">23 · Workflow impact — what changed</div>
+      <div class="slide">24 · What's next</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">7 · 🤯 Meta <span class="count">2 slides</span></div>
+    <div class="slides">
+      <div class="slide special">25 · How this presentation was made — brainstorm screenshots</div>
+      <div class="slide special">26 · The full loop: prompt → brainstorm → plan → build → present</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-title">8 · Q&amp;A <span class="count">1 slide</span></div>
+    <div class="slides">
+      <div class="slide qa">27 · Questions + resource links</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:16px;background:#0f172a;border:1px solid #38bdf833;border-radius:6px;padding:12px 16px;font-size:11px;color:#94a3b8;">
+  <span style="color:#7dd3fc;font-weight:700">Changes:</span> Cost section moved after Claude Code (what it is → how to use it → what it costs). Adjacent tools now includes OpenAI Codex &amp; Google Jules alongside Cursor/Copilot/Codeium.
+</div>

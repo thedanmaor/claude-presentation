@@ -1,0 +1,76 @@
+<style>
+  body { background: #0d0817; color: #f8fafc; font-family: 'Inter', sans-serif; margin: 0; padding: 12px; }
+  h1, h2, h3, h4 { color: #f59e0b; margin: 4px 0; }
+  p, li, div { color: #cbd5e1; }
+  .subtitle { color: #f59e0b; }
+  .cards { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px; flex: 1; min-width: 200px; }
+  .card-body h3 { color: #f59e0b; font-size: 14px; }
+</style>
+<h2>Which visual theme fits the presentation?</h2>
+<p class="subtitle">Audience: engineers. Format: Reveal.js. Pick the direction that feels right.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="dark-claude" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d0d14;padding:16px;font-family:'Inter',sans-serif;min-height:140px;border-radius:6px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c3aed,#a78bfa,#c4b5fd)"></div>
+      <div style="color:#a78bfa;font-size:10px;letter-spacing:3px;margin-top:12px;text-transform:uppercase">Claude Code</div>
+      <div style="color:#f1f0ff;font-size:22px;font-weight:700;margin-top:6px;line-height:1.2">Supercharged<br>Development</div>
+      <div style="color:#6b7280;font-size:11px;margin-top:8px">with Anthropic Claude</div>
+      <div style="position:absolute;bottom:12px;right:12px;width:40px;height:40px;background:linear-gradient(135deg,#7c3aed44,#a78bfa22);border-radius:8px;border:1px solid #7c3aed44"></div>
+    </div>
+    <div class="card-body">
+      <h3>Dark + Claude Purple</h3>
+      <p style="color:#f59e0b">Moody, technical. Claude's brand palette — deep dark bg, violet accents, subtle gradients.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="slate-amber" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:16px;font-family:'Inter',sans-serif;min-height:140px;border-radius:6px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fbbf24,#fde68a)"></div>
+      <div style="color:#f59e0b;font-size:10px;letter-spacing:3px;margin-top:12px;text-transform:uppercase">Claude Code</div>
+      <div style="color:#f8fafc;font-size:22px;font-weight:700;margin-top:6px;line-height:1.2">Supercharged<br>Development</div>
+      <div style="color:#f59e0b;font-size:11px;margin-top:8px">with Anthropic Claude</div>
+      <div style="position:absolute;bottom:12px;right:12px;background:linear-gradient(135deg,#f59e0b22,#fbbf2411);border-radius:8px;border:1px solid #f59e0b33;padding:8px 12px;">
+        <div style="color:#f59e0b;font-size:9px;font-weight:700">TOKENS</div>
+        <div style="color:#f8fafc;font-size:14px;font-weight:800">∞</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Slate + Amber</h3>
+      <p style="color:#f59e0b">Premium dark slate, warm amber highlights. Feels like a polished dev tool — serious but energetic.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="light-clean" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#ffffff;padding:16px;font-family:'Inter',sans-serif;min-height:140px;border-radius:6px;position:relative;overflow:hidden;border:1px solid #e2e8f0;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div>
+      <div style="color:#7c3aed;font-size:10px;letter-spacing:3px;margin-top:12px;text-transform:uppercase">Claude Code</div>
+      <div style="color:#0f172a;font-size:22px;font-weight:700;margin-top:6px;line-height:1.2">Supercharged<br>Development</div>
+      <div style="color:#f59e0b;font-size:11px;margin-top:8px">with Anthropic Claude</div>
+      <div style="position:absolute;bottom:12px;right:12px;background:#f1f5f9;border-radius:6px;padding:6px 10px;border:1px solid #e2e8f0">
+        <div style="color:#7c3aed;font-size:18px;font-weight:800">3.9.0</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Light + Clean</h3>
+      <p style="color:#f59e0b">White background, purple accents. Easy to read in bright rooms, professional, works well projected.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="terminal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:16px;font-family:'JetBrains Mono','Fira Code',monospace;min-height:140px;border-radius:6px;position:relative;overflow:hidden;">
+      <div style="color:#22c55e;font-size:11px;margin-top:4px">$ claude --version</div>
+      <div style="color:#4b5563;font-size:11px;margin-top:2px">claude-sonnet-4-6</div>
+      <div style="color:#22c55e;font-size:11px;margin-top:6px">$ <span style="color:#f8fafc;font-weight:700">Supercharged Development</span></div>
+      <div style="color:#22c55e;font-size:11px;margin-top:2px">$ with Anthropic Claude</div>
+      <div style="position:absolute;bottom:8px;right:12px;color:#22c55e;font-size:20px;opacity:0.4">█</div>
+    </div>
+    <div class="card-body">
+      <h3>Terminal Aesthetic</h3>
+      <p>Pure terminal look. Black bg, green text, monospace font. Maximally "dev" — bold statement.</p>
+    </div>
+  </div>
+
+</div>
