@@ -1,0 +1,1283 @@
+# Claude Presentation Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Build a professional 27-slide Reveal.js HTML presentation about Claude — covering the AI landscape, pricing, Claude Code, plugins, personal stack, real projects, and a meta "how this was made" section.
+
+**Architecture:** Single `index.html` file with Reveal.js JS/CSS fetched and inlined at build time (no CDN at runtime — avoids SRI/CDN-compromise risk and works offline). Google Fonts loaded via CDN with SRI. Screenshots as `<img src="screenshots/...">`. No build step after setup — open file in browser.
+
+**Tech Stack:** Reveal.js 5.1.0 (fetched locally), vanilla CSS custom theme (slate/amber + terminal variants), HTML5, Google Fonts (Inter + JetBrains Mono) via CDN with SRI hashes.
+
+---
+
+## File Structure
+
+```
+claude-presentation/
+├── index.html                  # Complete presentation — all 27 slides
+├── vendor/
+│   ├── reveal.js               # Reveal.js 5.1.0 — fetched locally, no CDN at runtime
+│   └── reveal.css
+├── screenshots/
+│   ├── brainstorm-theme.png    # Visual companion: theme selection screen
+│   ├── brainstorm-approach.png # Visual companion: approach selection screen
+│   └── brainstorm-structure.png# Visual companion: slide structure screen
+└── docs/
+    └── superpowers/
+        ├── specs/2026-05-28-claude-presentation-design.md
+        └── plans/2026-05-28-claude-presentation.md (this file)
+```
+
+---
+
+### Task 1: Project scaffold + custom theme
+
+**Files:**
+- Create: `index.html`
+
+- [ ] **Step 0: Fetch Reveal.js assets locally (eliminates CDN dependency)**
+
+```bash
+mkdir -p /Users/danmaor/Projects/DID/claude-presentation/vendor
+cd /Users/danmaor/Projects/DID/claude-presentation/vendor
+curl -fsSL https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js -o reveal.js
+curl -fsSL https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css -o reveal.css
+```
+
+Expected: two files in `vendor/`, each non-empty.
+
+- [ ] **Step 1: Create `index.html` referencing local Reveal.js + CDN fonts with SRI**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Supercharged Development with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="vendor/reveal.css"/>
+<style>
+/* ── Base theme ── */
+:root {
+  --r-background-color: #0f172a;
+  --r-main-font: 'Inter', sans-serif;
+  --r-main-font-size: 36px;
+  --r-main-color: #f8fafc;
+  --r-heading-font: 'Inter', sans-serif;
+  --r-heading-color: #f8fafc;
+  --r-heading-font-weight: 800;
+  --r-link-color: #f59e0b;
+  --r-link-color-hover: #fbbf24;
+  --r-selection-background-color: #f59e0b44;
+  --r-selection-color: #f8fafc;
+}
+.reveal { font-family: var(--r-main-font); }
+.reveal h1, .reveal h2 { color: var(--r-heading-color); line-height: 1.1; }
+.reveal h1 { font-size: 2.2em; }
+.reveal h2 { font-size: 1.6em; }
+.reveal h3 { font-size: 1.1em; color: #f59e0b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.reveal p, .reveal li { color: #cbd5e1; line-height: 1.6; }
+.reveal strong { color: #f8fafc; }
+.reveal code { font-family: 'JetBrains Mono', monospace; background: #1e293b; color: #f59e0b; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
+.reveal pre code { background: #0a0a0a; color: #4ade80; padding: 16px; border-radius: 8px; font-size: 0.75em; border: 1px solid #22c55e33; }
+.reveal a { color: #f59e0b; }
+.reveal .slides section { text-align: left; padding: 20px 60px; }
+
+/* ── Accent bar (top of every slide) ── */
+.reveal .slides section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24, #fde68a);
+}
+
+/* ── Terminal slides ── */
+.terminal-slide {
+  background-color: #0a0a0a !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+.terminal-slide h2 { color: #4ade80; font-family: 'JetBrains Mono', monospace; }
+.terminal-slide h3 { color: #22c55e; font-family: 'JetBrains Mono', monospace; }
+.terminal-slide p, .terminal-slide li { color: #a3e635; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+.terminal-slide .prompt { color: #22c55e; }
+.terminal-slide .prompt::before { content: '$ '; color: #4ade80; }
+.terminal-slide::before { background: linear-gradient(90deg, #22c55e, #4ade80, #86efac) !important; }
+
+/* ── Meta/special slides ── */
+.meta-slide { background-color: #0d0817 !important; }
+.meta-slide h2 { color: #a78bfa; }
+.meta-slide h3 { color: #c4b5fd; }
+.meta-slide::before { background: linear-gradient(90deg, #7c3aed, #a78bfa, #c4b5fd) !important; }
+
+/* ── Utility classes ── */
+.amber { color: #f59e0b; }
+.muted { color: #64748b; font-size: 0.8em; }
+.tag { display: inline-block; background: #1e293b; border: 1px solid #334155; color: #94a3b8; padding: 3px 10px; border-radius: 4px; font-size: 0.65em; font-family: 'JetBrains Mono', monospace; margin: 2px; }
+.tag.amber { border-color: #f59e0b44; color: #f59e0b; }
+.tag.green { border-color: #22c55e44; color: #4ade80; }
+.tag.violet { border-color: #7c3aed55; color: #a78bfa; }
+
+/* ── Cards grid ── */
+.cards-grid { display: grid; gap: 16px; margin-top: 20px; }
+.cards-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.cards-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px; }
+.card h4 { color: #f59e0b; font-size: 0.75em; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+.card p { color: #94a3b8; font-size: 0.65em; margin: 0; line-height: 1.5; }
+.card .install { font-family: 'JetBrains Mono', monospace; color: #4ade80; font-size: 0.6em; margin-top: 8px; }
+
+/* ── Comparison table ── */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin-top: 16px; }
+.compare-table th { background: #1e293b; color: #f59e0b; padding: 8px 12px; text-align: left; border: 1px solid #334155; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; }
+.compare-table td { padding: 8px 12px; border: 1px solid #1e293b; color: #cbd5e1; vertical-align: top; }
+.compare-table tr:nth-child(even) td { background: #0f172a; }
+.compare-table tr:nth-child(odd) td { background: #111827; }
+.compare-table td.highlight { color: #f59e0b; font-weight: 700; }
+.compare-table td.green { color: #4ade80; }
+.compare-table td.muted { color: #475569; }
+
+/* ── Two-column layout ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
+
+/* ── Fragment fade ── */
+.reveal .fragment { opacity: 0; transition: opacity 0.4s; }
+.reveal .fragment.visible { opacity: 1; }
+
+/* ── Q&A slide ── */
+.qa-slide h1 { font-size: 3.5em; color: #f59e0b; text-align: center; margin-top: 60px; }
+.qa-links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 30px; }
+.qa-links a { background: #1e293b; border: 1px solid #f59e0b44; color: #f59e0b; padding: 8px 18px; border-radius: 6px; font-size: 0.65em; font-family: 'JetBrains Mono', monospace; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- SLIDES GO HERE — Tasks 2-9 fill this in -->
+
+</div>
+</div>
+<script src="vendor/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  controls: true,
+  progress: true,
+  slideNumber: 'c/t',
+  plugins: []
+});
+</script>
+</body>
+</html>
+```
+
+- [ ] **Step 2: Verify scaffold opens correctly**
+
+Open `index.html` in browser. Expected: blank dark slide, amber top bar, Reveal.js controls visible.
+
+- [ ] **Step 3: Commit scaffold**
+
+```bash
+cd /Users/danmaor/Projects/DID/claude-presentation
+git init
+git add vendor/ index.html
+git commit -m "feat: reveal.js scaffold with slate/amber theme, local vendor assets"
+```
+
+---
+
+### Task 2: Screenshots — capture brainstorm session
+
+**Files:**
+- Create: `screenshots/brainstorm-theme.png`
+- Create: `screenshots/brainstorm-approach.png`
+- Create: `screenshots/brainstorm-structure.png`
+
+- [ ] **Step 1: Create screenshots directory**
+
+```bash
+mkdir -p /Users/danmaor/Projects/DID/claude-presentation/screenshots
+```
+
+- [ ] **Step 2: Serve each brainstorm HTML and screenshot it**
+
+The visual companion server should still be running at `http://localhost:50174`. Navigate to each file and capture with macOS screencapture:
+
+```bash
+# Serve visual-theme.html
+cp /Users/danmaor/Projects/DID/claude-presentation/.superpowers/brainstorm/1988-1779959595/content/visual-theme.html /tmp/vt.html
+
+# Screenshot the browser showing theme options
+# (User: navigate browser to localhost:50174 after copying each file, then run:)
+screencapture -x -t png /Users/danmaor/Projects/DID/claude-presentation/screenshots/brainstorm-theme.png
+```
+
+Repeat for `approaches.html` → `brainstorm-approach.png` and `slide-structure-v2.html` → `brainstorm-structure.png`.
+
+If `screencapture` window targeting fails, use: `screencapture -x /path/to/file.png` to grab the full screen immediately after manually positioning the browser.
+
+- [ ] **Step 3: Commit screenshots**
+
+```bash
+git add screenshots/
+git commit -m "feat: add brainstorm session screenshots for meta slide"
+```
+
+---
+
+### Task 3: Slides 1–6 — Hook + Enter Claude
+
+**Files:**
+- Modify: `index.html` (replace `<!-- SLIDES GO HERE -->` comment, then append each section)
+
+- [ ] **Step 1: Add Section 1 — Hook (slides 1–2)**
+
+Replace `<!-- SLIDES GO HERE — Tasks 2-9 fill this in -->` with:
+
+```html
+<!-- ═══════════════════════════════════════
+     SECTION 1: HOOK
+═══════════════════════════════════════ -->
+
+<!-- Slide 1: Title -->
+<section>
+  <h3>Dan Maor · 2026</h3>
+  <h1>Supercharged<br/>Development<br/><span class="amber">with Claude</span></h1>
+  <p class="muted" style="margin-top:40px">Claude Code · Plugins · Real Projects · The Meta Moment</p>
+</section>
+
+<!-- Slide 2: The Pain -->
+<section>
+  <h3>The Problem</h3>
+  <h2>Dev Friction Is Real</h2>
+  <div class="cards-grid cols-2" style="margin-top:24px">
+    <div class="card">
+      <h4>Context Switching</h4>
+      <p>Docs, Stack Overflow, GitHub, GPT — open 12 tabs to answer one question</p>
+    </div>
+    <div class="card">
+      <h4>Boilerplate Hell</h4>
+      <p>Writing the same scaffold code for the 40th time</p>
+    </div>
+    <div class="card">
+      <h4>Debugging Loops</h4>
+      <p>Read error → Google → guess → repeat. Hours lost per bug</p>
+    </div>
+    <div class="card">
+      <h4>Scope Creep Fear</h4>
+      <p>Ideas abandoned because the setup cost is too high</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 2: ENTER CLAUDE
+═══════════════════════════════════════ -->
+
+<!-- Slide 3: What is Anthropic / Claude -->
+<section>
+  <h3>Enter Claude</h3>
+  <h2>What is <span class="amber">Anthropic</span>?</h2>
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <p><strong>Anthropic</strong> is an AI safety company founded in 2021 by former OpenAI researchers, including Dario and Daniela Amodei.</p>
+      <p style="margin-top:16px">Mission: build AI systems that are <strong>safe</strong>, <strong>beneficial</strong>, and <strong>understandable</strong>.</p>
+      <p style="margin-top:16px"><strong>Claude</strong> is their flagship AI assistant — named after Claude Shannon, father of information theory.</p>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <h4>Constitutional AI</h4>
+        <p>Claude is trained with a set of principles ("constitution") guiding its values and behavior — not just RLHF</p>
+      </div>
+      <div class="card">
+        <h4>Context Window</h4>
+        <p>200,000 tokens (~150k words) — entire codebases fit in a single conversation</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4: AI Landscape -->
+<section>
+  <h3>The Landscape</h3>
+  <h2>Claude vs The Field</h2>
+  <table class="compare-table" style="margin-top:20px">
+    <thead>
+      <tr>
+        <th>Model</th><th>Made by</th><th>Coding</th><th>Context</th><th>Open?</th><th>Strength</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Claude 4 (Sonnet/Opus)</td>
+        <td>Anthropic</td>
+        <td class="green">★★★★★</td>
+        <td class="green">200k</td>
+        <td class="muted">No</td>
+        <td>Coding, long context, safety</td>
+      </tr>
+      <tr>
+        <td>GPT-4o / o3</td>
+        <td>OpenAI</td>
+        <td class="green">★★★★☆</td>
+        <td>128k</td>
+        <td class="muted">No</td>
+        <td>Multimodal, ecosystem size</td>
+      </tr>
+      <tr>
+        <td>Gemini 2.0 / 2.5</td>
+        <td>Google</td>
+        <td>★★★★☆</td>
+        <td class="green">1M</td>
+        <td class="muted">No</td>
+        <td>Massive context, Google integration</td>
+      </tr>
+      <tr>
+        <td>Llama 3.x</td>
+        <td>Meta</td>
+        <td>★★★☆☆</td>
+        <td>128k</td>
+        <td class="green">Yes</td>
+        <td>Self-hosted, free, customisable</td>
+      </tr>
+      <tr>
+        <td>Mistral / Codestral</td>
+        <td>Mistral AI</td>
+        <td>★★★☆☆</td>
+        <td>32k</td>
+        <td class="green">Partly</td>
+        <td>Fast, EU-based, open weights</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Slide 5: What makes Claude different -->
+<section>
+  <h3>What Makes Claude Different</h3>
+  <h2>Built for <span class="amber">Depth</span></h2>
+  <div class="three-col" style="margin-top:24px">
+    <div class="card">
+      <h4>Coding Excellence</h4>
+      <p>Consistently top-ranked on SWE-bench. Writes clean, idiomatic code. Understands large codebases holistically.</p>
+    </div>
+    <div class="card">
+      <h4>Long Context</h4>
+      <p>200k tokens. Load an entire repo, a legal contract, a book — Claude holds it all in context without losing the thread.</p>
+    </div>
+    <div class="card">
+      <h4>Instruction Following</h4>
+      <p>Follows complex multi-step instructions reliably. Less hallucination on factual tasks. Says "I don't know" rather than guessing.</p>
+    </div>
+    <div class="card">
+      <h4>Character</h4>
+      <p>Constitutional AI gives Claude consistent values. It pushes back on bad ideas rather than just agreeing.</p>
+    </div>
+    <div class="card">
+      <h4>Tool Use</h4>
+      <p>Native function/tool calling, MCP protocol support, multi-step agentic tasks across files, bash, and the web.</p>
+    </div>
+    <div class="card">
+      <h4>Claude Code</h4>
+      <p>A dedicated CLI product — not just a chat wrapper. Full filesystem access, shell execution, project-level awareness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 6: Adjacent tools -->
+<section>
+  <h3>The Neighbourhood</h3>
+  <h2>Adjacent <span class="amber">Tools</span></h2>
+  <table class="compare-table" style="margin-top:20px">
+    <thead>
+      <tr><th>Tool</th><th>By</th><th>Type</th><th>How it differs from Claude Code</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="highlight">Claude Code</td><td>Anthropic</td><td>CLI / agentic</td>
+        <td class="green">Full agentic loop — reads, writes, runs bash, manages projects. Extensible via plugins.</td>
+      </tr>
+      <tr>
+        <td>Cursor</td><td>Anysphere</td><td>IDE</td>
+        <td>Editor-embedded AI. Great for inline edits. Less agentic, no plugin ecosystem.</td>
+      </tr>
+      <tr>
+        <td>GitHub Copilot</td><td>GitHub/MS</td><td>IDE plugin</td>
+        <td>Autocomplete-first. Tight GitHub integration. Limited agentic capability.</td>
+      </tr>
+      <tr>
+        <td>OpenAI Codex</td><td>OpenAI</td><td>CLI / agentic</td>
+        <td>OpenAI's answer to Claude Code. Cloud sandbox execution. Less plugin ecosystem maturity.</td>
+      </tr>
+      <tr>
+        <td>Google Jules</td><td>Google</td><td>Agentic</td>
+        <td>Async background coding agent. Runs in Google's cloud. No local terminal control.</td>
+      </tr>
+      <tr>
+        <td>Codeium / Windsurf</td><td>Codeium</td><td>IDE</td>
+        <td>Free Copilot alternative. Windsurf adds agentic "Cascade" mode. Smaller ecosystem.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+```
+
+- [ ] **Step 2: Verify slides 1–6 in browser**
+
+Open `index.html`. Navigate slides 1–6 with arrow keys. Check: amber accent bar on each slide, comparison tables render cleanly, cards grid aligns.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html
+git commit -m "feat: slides 1-6 hook and enter claude sections"
+```
+
+---
+
+### Task 4: Slides 7–10 — Claude Code CLI
+
+**Files:**
+- Modify: `index.html`
+
+- [ ] **Step 1: Append Section 3 slides inside `.slides` div, after slide 6**
+
+```html
+<!-- ═══════════════════════════════════════
+     SECTION 3: CLAUDE CODE CLI
+═══════════════════════════════════════ -->
+
+<!-- Slide 7: What is Claude Code (terminal) -->
+<section class="terminal-slide">
+  <h3>$ claude --intro</h3>
+  <h2>Claude Code</h2>
+  <div style="margin-top:24px">
+    <p class="prompt">what is it</p>
+    <p style="margin-left:20px;color:#cbd5e1">An agentic CLI that runs in your terminal.</p>
+    <p class="prompt" style="margin-top:16px">what can it do</p>
+    <div style="margin-left:20px;margin-top:8px">
+      <p>📁 &nbsp;Read and write any file in your project</p>
+      <p>⚡ &nbsp;Execute bash commands, run tests, start servers</p>
+      <p>🌐 &nbsp;Fetch web pages, call APIs, search the web</p>
+      <p>🔁 &nbsp;Multi-step agentic tasks — plan → execute → verify</p>
+      <p>🧩 &nbsp;Extend with plugins and MCP servers</p>
+    </div>
+    <p class="prompt" style="margin-top:16px">how do i install it</p>
+    <pre><code>npm install -g @anthropic-ai/claude-code
+claude</code></pre>
+  </div>
+</section>
+
+<!-- Slide 8: Agentic coding (terminal) -->
+<section class="terminal-slide">
+  <h3>$ claude --capabilities</h3>
+  <h2>Agentic <span style="color:#f59e0b">Coding</span></h2>
+  <div class="two-col" style="margin-top:20px">
+    <div>
+      <p class="prompt">tools available</p>
+      <p style="margin-left:20px;margin-top:8px">Read · Write · Edit · Bash · WebFetch</p>
+      <p style="margin-left:20px">WebSearch · Agent · TodoWrite · LSP</p>
+      <p class="prompt" style="margin-top:20px">mcp servers</p>
+      <p style="margin-left:20px;margin-top:8px">Connect any MCP server — databases,<br/>APIs, Slack, GitHub, custom tools</p>
+    </div>
+    <div>
+      <p class="prompt">example task</p>
+      <pre style="margin-top:8px"><code style="font-size:0.7em">> Add auth to the API,
+  write tests, open a PR
+
+Claude:
+1. Reading existing routes...
+2. Writing auth middleware...
+3. Adding tests...
+4. Tests pass ✓
+5. Creating PR #42...</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 9: Plugin ecosystem -->
+<section>
+  <h3>Extend Everything</h3>
+  <h2>The <span class="amber">Plugin</span> Ecosystem</h2>
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <p>Plugins extend Claude Code by injecting:</p>
+      <ul style="margin-top:12px">
+        <li><strong>Skills</strong> — slash commands with structured workflows</li>
+        <li><strong>Hooks</strong> — code that runs before/after tool calls</li>
+        <li><strong>CLAUDE.md</strong> — persistent context and instructions</li>
+        <li><strong>MCP servers</strong> — new tools for Claude to call</li>
+        <li><strong>Agents</strong> — specialised sub-agents for specific tasks</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <h4>Install a plugin</h4>
+        <p class="install">/install superpowers@claude-plugins-official</p>
+      </div>
+      <div class="card">
+        <h4>Browse marketplace</h4>
+        <p>Plugins are git repos — install from GitHub or official marketplace. Auto-updates on reconnect.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 10: Plugin marketplace overview -->
+<section>
+  <h3>Plugin Marketplace</h3>
+  <h2>Built by the <span class="amber">Community</span></h2>
+  <div class="cards-grid cols-3" style="margin-top:20px">
+    <div class="card">
+      <h4>Workflow &amp; Process</h4>
+      <p>TDD, debugging, brainstorming, planning, code review, parallel agents</p>
+      <p class="install">superpowers</p>
+    </div>
+    <div class="card">
+      <h4>Code Review</h4>
+      <p>Correctness, security, performance, data integrity, API contracts</p>
+      <p class="install">compound-engineering</p>
+    </div>
+    <div class="card">
+      <h4>Token Optimisation</h4>
+      <p>Compress communication, auto-route to cheapest capable model</p>
+      <p class="install">caveman · smart-model-router</p>
+    </div>
+    <div class="card">
+      <h4>Web &amp; Research</h4>
+      <p>Scrape, crawl, search the web from inside Claude Code</p>
+      <p class="install">firecrawl</p>
+    </div>
+    <div class="card">
+      <h4>UI / Design</h4>
+      <p>67 styles, 161 palettes, component libraries, design system generation</p>
+      <p class="install">ui-ux-pro-max</p>
+    </div>
+    <div class="card">
+      <h4>AI Agents</h4>
+      <p>Delegate tasks to OpenAI Codex, Morph, and other AI backends</p>
+      <p class="install">codex · morph-compact</p>
+    </div>
+  </div>
+</section>
+```
+
+- [ ] **Step 2: Verify slides 7–10**
+
+Navigate to slides 7–10. Terminal slides (7–8) should have dark background and green text. Slide 8 `pre` block should show mock CLI output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html
+git commit -m "feat: slides 7-10 claude code cli section"
+```
+
+---
+
+### Task 5: Slides 11–15 — The Cost
+
+**Files:**
+- Modify: `index.html`
+
+- [ ] **Step 1: Append Section 4 slides**
+
+```html
+<!-- ═══════════════════════════════════════
+     SECTION 4: THE COST
+═══════════════════════════════════════ -->
+
+<!-- Slide 11: Tokens explained (terminal) -->
+<section class="terminal-slide">
+  <h3>$ claude --explain tokens</h3>
+  <h2>What Is a <span style="color:#f59e0b">Token</span>?</h2>
+  <div class="two-col" style="margin-top:20px">
+    <div>
+      <p class="prompt">definition</p>
+      <p style="margin-left:20px;margin-top:8px">~¾ of a word on average.<br/>"Hello world" = 2 tokens.<br/>"Supercharged" = 3 tokens.</p>
+      <p class="prompt" style="margin-top:20px">what counts</p>
+      <p style="margin-left:20px;margin-top:8px">Input tokens: your prompt + context<br/>Output tokens: Claude's response<br/>Output costs ~3-5× more than input</p>
+    </div>
+    <div>
+      <p class="prompt">context window</p>
+      <p style="margin-left:20px;margin-top:8px">200,000 tokens max per request.<br/>= ~150,000 words<br/>= a ~500-page novel<br/>= a medium-sized codebase</p>
+      <p class="prompt" style="margin-top:20px">why it matters</p>
+      <p style="margin-left:20px;margin-top:8px">Pricing is per token.<br/>Larger context = more tokens = higher cost.<br/>Smart routing saves real money.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 12: Models — Haiku / Sonnet / Opus (terminal) -->
+<section class="terminal-slide">
+  <h3>$ claude --list-models</h3>
+  <h2>Three <span style="color:#f59e0b">Tiers</span></h2>
+  <div class="three-col" style="margin-top:20px">
+    <div class="card" style="background:#0f1a0f;border-color:#22c55e33">
+      <h4 style="color:#4ade80">Haiku — Fast</h4>
+      <p style="color:#86efac">Cheapest. Fastest response.<br/>Best for: simple lookups, renames, formatting, git ops, repetitive tasks.</p>
+      <p class="install" style="color:#22c55e">claude-haiku-4-5</p>
+    </div>
+    <div class="card" style="background:#1a1508;border-color:#f59e0b33">
+      <h4 style="color:#fbbf24">Sonnet — Balanced</h4>
+      <p style="color:#fde68a">Best cost/capability ratio.<br/>Best for: feature work, debugging, code writing, tests, most daily tasks.</p>
+      <p class="install" style="color:#f59e0b">claude-sonnet-4-6</p>
+    </div>
+    <div class="card" style="background:#120a1a;border-color:#7c3aed44">
+      <h4 style="color:#a78bfa">Opus — Deep</h4>
+      <p style="color:#c4b5fd">Most capable. Slowest, priciest.<br/>Best for: architecture decisions, complex refactors, multi-system reasoning.</p>
+      <p class="install" style="color:#7c3aed">claude-opus-4-7</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 13: Claude 4 family pricing (terminal) -->
+<section class="terminal-slide">
+  <h3>$ claude --pricing</h3>
+  <h2>Claude 4 <span style="color:#f59e0b">Pricing</span></h2>
+  <table class="compare-table" style="margin-top:20px;font-family:'JetBrains Mono',monospace">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Input / MTok</th>
+        <th>Output / MTok</th>
+        <th>Context</th>
+        <th>Best for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#4ade80">Haiku 4.5</td>
+        <td class="green">$0.80</td>
+        <td class="green">$4.00</td>
+        <td>200k</td>
+        <td class="muted">Simple tasks, volume work</td>
+      </tr>
+      <tr>
+        <td style="color:#fbbf24">Sonnet 4.6</td>
+        <td class="amber">$3.00</td>
+        <td class="amber">$15.00</td>
+        <td>200k</td>
+        <td class="muted">Daily dev, feature work</td>
+      </tr>
+      <tr>
+        <td style="color:#a78bfa">Opus 4.7</td>
+        <td style="color:#f87171">$15.00</td>
+        <td style="color:#f87171">$75.00</td>
+        <td>200k</td>
+        <td class="muted">Architecture, deep analysis</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top:20px;font-size:0.6em;color:#475569">Prices per million tokens. Verify at anthropic.com/pricing — updates frequently. Prompt caching reduces input costs by up to 90%.</p>
+</section>
+
+<!-- Slide 14: Plans comparison -->
+<section>
+  <h3>How to Pay</h3>
+  <h2>Plans &amp; <span class="amber">Access</span></h2>
+  <table class="compare-table" style="margin-top:20px">
+    <thead>
+      <tr><th>Plan</th><th>Price</th><th>Claude Code</th><th>Token Budget</th><th>Best for</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Free</td>
+        <td class="green">$0</td>
+        <td class="muted">Limited</td>
+        <td class="muted">Low</td>
+        <td>Trying it out</td>
+      </tr>
+      <tr>
+        <td class="highlight">Pro</td>
+        <td class="highlight">$20/mo</td>
+        <td class="green">✓ Full</td>
+        <td class="highlight">5× Free</td>
+        <td class="highlight">Individual developers ← you are here</td>
+      </tr>
+      <tr>
+        <td>API</td>
+        <td>Pay-per-token</td>
+        <td class="green">✓ Full</td>
+        <td class="green">Unlimited</td>
+        <td>Apps, automation, high-volume</td>
+      </tr>
+      <tr>
+        <td>Teams</td>
+        <td>$25/user/mo</td>
+        <td class="green">✓ Full</td>
+        <td class="green">Higher</td>
+        <td>Small dev teams</td>
+      </tr>
+      <tr>
+        <td>Enterprise</td>
+        <td>Custom</td>
+        <td class="green">✓ Full</td>
+        <td class="green">Highest</td>
+        <td>Orgs needing SSO, audit, compliance</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Slide 15: Pro plan deep dive -->
+<section>
+  <h3>The Sweet Spot</h3>
+  <h2>Pro Plan — <span class="amber">$20/mo</span></h2>
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <p><strong>What you get:</strong></p>
+      <ul style="margin-top:12px">
+        <li>Claude Code CLI — full agentic access</li>
+        <li>All models: Haiku, Sonnet, Opus</li>
+        <li>5× token budget vs free tier</li>
+        <li>Priority access during peak hours</li>
+        <li>Claude.ai web + mobile apps</li>
+        <li>Projects and persistent memory</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card" style="border-color:#f59e0b66">
+        <h4>Real-world usage</h4>
+        <p>At $20/mo with Sonnet 4.6 on Pro, typical daily dev work (feature + debug + review) stays well within limits. Heavy agentic multi-file sessions hit limits faster — use Haiku for simple tasks to stretch your budget.</p>
+      </div>
+      <div class="card" style="margin-top:12px">
+        <h4>Smart Router tip</h4>
+        <p>Auto-route simple tasks to Haiku, keep Sonnet/Opus for real work. Multiplies effective token budget.</p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+- [ ] **Step 2: Verify slides 11–15**
+
+Check: slides 11–13 have terminal (dark/green) aesthetic. Pricing table on slide 13 has correct colour-coded costs. Plans table on slide 14 highlights the Pro row in amber.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html
+git commit -m "feat: slides 11-15 tokens pricing and plans section"
+```
+
+---
+
+### Task 6: Slides 16–21 — My Stack
+
+**Files:**
+- Modify: `index.html`
+
+- [ ] **Step 1: Append Section 5 slides**
+
+```html
+<!-- ═══════════════════════════════════════
+     SECTION 5: MY STACK
+═══════════════════════════════════════ -->
+
+<!-- Slide 16: All 14 plugins overview -->
+<section>
+  <h3>My Setup</h3>
+  <h2><span class="amber">14 Plugins</span> Installed</h2>
+  <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px">
+    <span class="tag amber">superpowers v5.1.0</span>
+    <span class="tag amber">caveman v18e453</span>
+    <span class="tag amber">smart-model-router v1.0.0</span>
+    <span class="tag amber">compound-engineering v3.9.0</span>
+    <span class="tag">firecrawl v1.0.8</span>
+    <span class="tag">morph-compact v0.2.8</span>
+    <span class="tag">buildpartner v0.9.0</span>
+    <span class="tag">codex v1.0.4</span>
+    <span class="tag">ui-ux-pro-max v2.5.0</span>
+    <span class="tag">frontend-design</span>
+    <span class="tag">swift-lsp v1.0.0</span>
+    <span class="tag">security-guidance v2.0.0</span>
+    <span class="tag">skill-creator</span>
+    <span class="tag violet">claude-powerline v1.26.0</span>
+  </div>
+  <div class="cards-grid cols-3" style="margin-top:20px">
+    <div class="card" style="border-color:#f59e0b44">
+      <h4>Workflow &amp; Process</h4>
+      <p>superpowers, caveman, smart-model-router, compound-engineering</p>
+    </div>
+    <div class="card">
+      <h4>Data &amp; Web</h4>
+      <p>firecrawl, morph-compact, codex</p>
+    </div>
+    <div class="card">
+      <h4>Design &amp; Security</h4>
+      <p>ui-ux-pro-max, frontend-design, security-guidance, skill-creator, buildpartner, swift-lsp, claude-powerline</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 17: Superpowers -->
+<section>
+  <h3>Plugin Deep Dive</h3>
+  <h2>Superpowers <span class="muted">— skills system</span></h2>
+  <div class="two-col" style="margin-top:20px">
+    <div>
+      <p>Core structured workflow library. Turns Claude Code from a chat window into a disciplined engineering partner.</p>
+      <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:6px">
+        <span class="tag green">/tdd</span>
+        <span class="tag green">/debug</span>
+        <span class="tag green">/brainstorm</span>
+        <span class="tag green">/writing-plans</span>
+        <span class="tag green">/subagent-driven-development</span>
+        <span class="tag green">/executing-plans</span>
+        <span class="tag green">/code-review</span>
+        <span class="tag green">/requesting-code-review</span>
+        <span class="tag green">/worktrees</span>
+        <span class="tag green">/writing-skills</span>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-color:#22c55e33">
+        <h4>Install</h4>
+        <p class="install">/install superpowers@claude-plugins-official</p>
+      </div>
+      <div class="card" style="margin-top:12px;border-color:#22c55e33">
+        <h4>GitHub</h4>
+        <p><a href="https://github.com/obra/superpowers" style="color:#4ade80;font-family:monospace;font-size:0.85em">github.com/obra/superpowers</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 18: Caveman + Smart Router (terminal) -->
+<section class="terminal-slide">
+  <h3>$ /caveman ultra &amp;&amp; /smart-router</h3>
+  <h2>Token <span style="color:#f59e0b">Optimisation</span></h2>
+  <div class="two-col" style="margin-top:20px">
+    <div>
+      <p style="color:#fbbf24;font-weight:700">Caveman Mode</p>
+      <p class="prompt" style="margin-top:8px">what it does</p>
+      <p style="margin-left:20px">Compresses Claude's responses ~75% by removing filler words, articles, pleasantries. All technical substance preserved.</p>
+      <pre style="margin-top:12px"><code style="font-size:0.65em">Normal: "Sure! I'd be happy to help
+you with that. The issue you're
+experiencing is likely caused by..."
+
+Caveman: "Bug in auth middleware.
+Token check: use < not <=. Fix:"</code></pre>
+    </div>
+    <div>
+      <p style="color:#fbbf24;font-weight:700">Smart Model Router</p>
+      <p class="prompt" style="margin-top:8px">auto-routing rules</p>
+      <pre style="margin-top:8px"><code style="font-size:0.7em">git rename → haiku
+quick lookup → haiku
+feature work → sonnet
+architecture → opus</code></pre>
+      <p class="prompt" style="margin-top:12px">result</p>
+      <p style="margin-left:20px">No config per-task.<br/>Cheapest model that can do the job.</p>
+      <p class="install" style="margin-top:12px">/install smart-model-router@smart-model-router</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 19: Compound Engineering -->
+<section>
+  <h3>Plugin Deep Dive</h3>
+  <h2>Compound <span class="amber">Engineering</span></h2>
+  <p>Multi-agent code review &amp; research system. Spawns specialised sub-agents for each review dimension.</p>
+  <div class="cards-grid cols-3" style="margin-top:16px">
+    <div class="card">
+      <h4>ce-correctness</h4>
+      <p>Logic errors, edge cases, state bugs, intent-vs-implementation</p>
+    </div>
+    <div class="card">
+      <h4>ce-security</h4>
+      <p>Auth flaws, injection, OWASP Top 10, input validation</p>
+    </div>
+    <div class="card">
+      <h4>ce-performance</h4>
+      <p>N+1 queries, complexity, memory, caching gaps</p>
+    </div>
+    <div class="card">
+      <h4>ce-brainstorm</h4>
+      <p>Ideation and design exploration before building</p>
+    </div>
+    <div class="card">
+      <h4>ce-data-integrity</h4>
+      <p>Migration safety, schema drift, transaction boundaries</p>
+    </div>
+    <div class="card">
+      <h4>ce-api-contract</h4>
+      <p>Breaking changes, versioning, serialisation</p>
+    </div>
+  </div>
+  <p style="margin-top:12px"><code>/install compound-engineering@compound-engineering-plugin</code> · <a href="https://github.com/EveryInc/compound-engineering-plugin">github.com/EveryInc/compound-engineering-plugin</a></p>
+</section>
+
+<!-- Slide 20: BuildPartner / Firecrawl / Morph / Codex -->
+<section>
+  <h3>Plugin Deep Dive</h3>
+  <h2>More <span class="amber">Power Tools</span></h2>
+  <div class="cards-grid cols-2" style="margin-top:20px">
+    <div class="card">
+      <h4>BuildPartner</h4>
+      <p>Expert guidance on business strategy, pricing, marketing, product decisions — inside Claude Code. Uses AI coaching frameworks.</p>
+      <p class="install">/install buildpartner@buildpartner</p>
+    </div>
+    <div class="card">
+      <h4>Firecrawl</h4>
+      <p>Scrape, crawl, search and map any website. Claude can now research the web as part of any task — docs, competitors, repos.</p>
+      <p class="install">/install firecrawl@firecrawl</p>
+    </div>
+    <div class="card">
+      <h4>Morph Compact</h4>
+      <p>Replaces Claude Code's context compaction with Morph's service. Smarter compression = fewer tokens lost when context gets long.</p>
+      <p class="install">/install morph-compact@morph</p>
+    </div>
+    <div class="card">
+      <h4>OpenAI Codex</h4>
+      <p>Delegate tasks from Claude Code to OpenAI Codex. Best of both worlds — use Codex for tasks where it outperforms.</p>
+      <p class="install">/install codex@openai-codex</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 21: UI-UX / Security / Skill Creator / Powerline -->
+<section>
+  <h3>Plugin Deep Dive</h3>
+  <h2>The <span class="amber">Rest of the Stack</span></h2>
+  <div class="cards-grid cols-2" style="margin-top:20px">
+    <div class="card">
+      <h4>UI-UX Pro Max</h4>
+      <p>67 design styles, 161 palettes, 57 font pairings, 25 chart types, 15 framework stacks. Design system in seconds.</p>
+      <p class="install">/install ui-ux-pro-max@ui-ux-pro-max-skill</p>
+    </div>
+    <div class="card">
+      <h4>Security Guidance</h4>
+      <p>Pattern-based warnings on every edit. LLM-powered diff review on stop. Catches OWASP issues before they ship.</p>
+      <p class="install">/install security-guidance@claude-plugins-official</p>
+    </div>
+    <div class="card">
+      <h4>Skill Creator</h4>
+      <p>Create and improve your own skills from scratch. Measure skill performance. Build your personal automation library.</p>
+      <p class="install">/install skill-creator@claude-plugins-official</p>
+    </div>
+    <div class="card">
+      <h4>Claude Powerline</h4>
+      <p>Status bar for Claude Code showing active mode, model, token usage. Wizard-based setup. Visual feedback at all times.</p>
+      <p class="install">/install claude-powerline@claude-powerline</p>
+    </div>
+  </div>
+</section>
+```
+
+- [ ] **Step 2: Verify slides 16–21**
+
+Check: slide 16 tag cloud renders, all install commands shown in green monospace, links clickable on slides 17/19.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html
+git commit -m "feat: slides 16-21 my stack and plugins section"
+```
+
+---
+
+### Task 7: Slides 22–24 — Real Projects
+
+**Files:**
+- Modify: `index.html`
+
+- [ ] **Step 1: Append Section 6 slides**
+
+```html
+<!-- ═══════════════════════════════════════
+     SECTION 6: REAL PROJECTS
+═══════════════════════════════════════ -->
+
+<!-- Slide 22: Projects built -->
+<section>
+  <h3>Built With Claude</h3>
+  <h2>Real <span class="amber">Projects</span></h2>
+  <div class="cards-grid cols-2" style="margin-top:20px">
+    <div class="card">
+      <h4>RecipEasy</h4>
+      <p>Import recipes from Instagram, TikTok, YouTube, blogs. AI scrapes structured data, calculates nutrition, generates shopping lists.</p>
+      <p class="muted" style="margin-top:6px">Stack: web app · AI extraction · nutrition API</p>
+    </div>
+    <div class="card">
+      <h4>LiveTrigger</h4>
+      <p>macOS live performance video &amp; audio triggering system for live bands. Zero-latency MIDI → sample playback bypassing SD card.</p>
+      <p class="muted" style="margin-top:6px">Stack: macOS · MIDI · SwiftUI · ~2.7ms latency</p>
+    </div>
+    <div class="card">
+      <h4>SamplePad Manager OSX</h4>
+      <p>Native macOS app for managing Alesis SamplePad Pro. USB MIDI controller interface, sample library management, live gig mode.</p>
+      <p class="muted" style="margin-top:6px">Stack: Swift · SwiftUI · Core Data · MIDI</p>
+    </div>
+    <div class="card">
+      <h4>Petify</h4>
+      <p>AI-powered pet management tool. Health tracking, vet appointment intelligence, breed-aware recommendations.</p>
+      <p class="muted" style="margin-top:6px">Stack: AI · mobile · pet health data</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 23: Workflow impact -->
+<section>
+  <h3>The Difference</h3>
+  <h2>What <span class="amber">Actually Changed</span></h2>
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <p style="color:#94a3b8;font-size:0.85em;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Before</p>
+      <ul>
+        <li>Features took days, not hours</li>
+        <li>Architecture decisions were long debates</li>
+        <li>Boilerplate ate 30% of coding time</li>
+        <li>Code review was manual and slow</li>
+        <li>Ideas were shelved for "later"</li>
+        <li>Context switching broke flow</li>
+      </ul>
+    </div>
+    <div>
+      <p style="color:#f59e0b;font-size:0.85em;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">After</p>
+      <ul>
+        <li><strong>Scope of what's buildable expanded</strong> dramatically</li>
+        <li>Architecture explored in minutes via brainstorming skill</li>
+        <li>Scaffold generated in one prompt</li>
+        <li>Automated multi-dimension code review on every diff</li>
+        <li>Ideas ship the same day</li>
+        <li>Claude holds context — you stay in flow</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 24: What's next -->
+<section>
+  <h3>The Road Ahead</h3>
+  <h2>What's <span class="amber">Next</span></h2>
+  <div class="three-col" style="margin-top:24px">
+    <div class="card">
+      <h4>MCP Everywhere</h4>
+      <p>Model Context Protocol connects Claude to every tool — databases, Slack, GitHub, custom APIs. The integration surface is exploding.</p>
+    </div>
+    <div class="card">
+      <h4>Multi-Agent Pipelines</h4>
+      <p>Orchestrating fleets of specialised agents for complex tasks. One prompt → 10 parallel agents → reviewed result.</p>
+    </div>
+    <div class="card">
+      <h4>Always-On Agents</h4>
+      <p>Scheduled agents running on cron, watching repos, triaging issues, monitoring deploys. Claude Code as autonomous team member.</p>
+    </div>
+  </div>
+</section>
+```
+
+- [ ] **Step 2: Verify slides 22–24**
+
+Check cards render cleanly, before/after columns align on slide 23.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html
+git commit -m "feat: slides 22-24 real projects section"
+```
+
+---
+
+### Task 8: Slides 25–27 — Meta + Q&A
+
+**Files:**
+- Modify: `index.html`
+
+- [ ] **Step 1: Append Section 7 + 8 slides**
+
+```html
+<!-- ═══════════════════════════════════════
+     SECTION 7: META
+═══════════════════════════════════════ -->
+
+<!-- Slide 25: How this was made -->
+<section class="meta-slide">
+  <h3>🤯 Mind the Meta</h3>
+  <h2>This Presentation Was <span style="color:#a78bfa">Made with Claude</span></h2>
+  <div class="two-col" style="margin-top:24px">
+    <div>
+      <p style="color:#c4b5fd">The visual brainstorming session that designed these slides:</p>
+      <ul style="margin-top:12px;color:#c4b5fd">
+        <li>Picked the slate/amber theme ← that mockup</li>
+        <li>Chose the Problem→Solution arc ← that mockup</li>
+        <li>Approved the 27-slide structure ← that mockup</li>
+        <li>Generated the design spec automatically</li>
+        <li>Wrote this implementation plan</li>
+        <li>Built every slide</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <img src="screenshots/brainstorm-theme.png" style="width:100%;border-radius:6px;border:1px solid #7c3aed44" alt="Theme selection brainstorm screen"/>
+      <img src="screenshots/brainstorm-structure.png" style="width:100%;border-radius:6px;border:1px solid #7c3aed44" alt="Slide structure brainstorm screen"/>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 26: The full loop -->
+<section class="meta-slide">
+  <h3>The Full Loop</h3>
+  <h2>Prompt → <span style="color:#a78bfa">Shipped</span></h2>
+  <div style="margin-top:24px;display:flex;align-items:center;gap:0;flex-wrap:wrap">
+    <div class="card" style="background:#12082a;border-color:#7c3aed44;flex:1;min-width:120px;text-align:center">
+      <h4 style="color:#a78bfa;text-align:center">1. Prompt</h4>
+      <p style="text-align:center">"make a presentation about Claude"</p>
+    </div>
+    <div style="color:#7c3aed;font-size:1.5em;padding:0 8px">→</div>
+    <div class="card" style="background:#12082a;border-color:#7c3aed44;flex:1;min-width:120px;text-align:center">
+      <h4 style="color:#a78bfa;text-align:center">2. Brainstorm</h4>
+      <p style="text-align:center">Visual companion, theme, arc, structure</p>
+    </div>
+    <div style="color:#7c3aed;font-size:1.5em;padding:0 8px">→</div>
+    <div class="card" style="background:#12082a;border-color:#7c3aed44;flex:1;min-width:120px;text-align:center">
+      <h4 style="color:#a78bfa;text-align:center">3. Spec</h4>
+      <p style="text-align:center">Auto-written design doc, self-reviewed</p>
+    </div>
+    <div style="color:#7c3aed;font-size:1.5em;padding:0 8px">→</div>
+    <div class="card" style="background:#12082a;border-color:#7c3aed44;flex:1;min-width:120px;text-align:center">
+      <h4 style="color:#a78bfa;text-align:center">4. Plan</h4>
+      <p style="text-align:center">Implementation plan with exact code per task</p>
+    </div>
+    <div style="color:#7c3aed;font-size:1.5em;padding:0 8px">→</div>
+    <div class="card" style="background:#12082a;border-color:#7c3aed44;flex:1;min-width:120px;text-align:center">
+      <h4 style="color:#a78bfa;text-align:center">5. Build</h4>
+      <p style="text-align:center">Claude executes tasks, commits each one</p>
+    </div>
+    <div style="color:#7c3aed;font-size:1.5em;padding:0 8px">→</div>
+    <div class="card" style="background:#12082a;border-color:#f59e0b55;flex:1;min-width:120px;text-align:center">
+      <h4 style="color:#f59e0b;text-align:center">6. This Slide</h4>
+      <p style="text-align:center">👋</p>
+    </div>
+  </div>
+  <p style="margin-top:24px;color:#7c3aed;font-size:0.75em;text-align:center">Total time from first prompt to finished presentation: ~1 session</p>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 8: Q&A
+═══════════════════════════════════════ -->
+
+<!-- Slide 27: Q&A -->
+<section class="qa-slide">
+  <h1>Questions?</h1>
+  <div class="qa-links" style="margin-top:40px">
+    <a href="https://claude.ai">claude.ai</a>
+    <a href="https://claude.ai/code">claude.ai/code</a>
+    <a href="https://anthropic.com/pricing">anthropic.com/pricing</a>
+    <a href="https://github.com/obra/superpowers">github: superpowers</a>
+    <a href="https://github.com/EveryInc/compound-engineering-plugin">github: compound-engineering</a>
+    <a href="https://github.com/austinmarchese/buildpartner-plugin">github: buildpartner</a>
+    <a href="https://github.com/Owloops/claude-powerline">github: claude-powerline</a>
+  </div>
+  <p style="text-align:center;margin-top:40px;color:#475569;font-size:0.65em">Dan Maor · maor.dan@gmail.com</p>
+</section>
+```
+
+- [ ] **Step 2: Verify slides 25–27**
+
+Check: meta slides have violet/purple accent bar. Slide 26 flow cards render in a row. Q&A links all open correctly. Screenshots display (may show broken image if not yet captured — that's OK, Task 2 handles it).
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add index.html
+git commit -m "feat: slides 25-27 meta and qa sections - full deck complete"
+```
+
+---
+
+### Task 9: Screenshots capture + embed
+
+**Files:**
+- Create: `screenshots/brainstorm-theme.png`
+- Create: `screenshots/brainstorm-approach.png`
+- Create: `screenshots/brainstorm-structure.png`
+
+- [ ] **Step 1: Verify screenshot directory exists**
+
+```bash
+ls /Users/danmaor/Projects/DID/claude-presentation/screenshots/
+```
+
+- [ ] **Step 2: Open each brainstorm HTML in browser and screenshot**
+
+The brainstorm HTML files are in `.superpowers/brainstorm/1988-1779959595/content/`. Open a local server to serve them, or open directly. Screenshot each:
+
+```bash
+# Open visual-theme.html in browser, screenshot
+open /Users/danmaor/Projects/DID/claude-presentation/.superpowers/brainstorm/1988-1779959595/content/visual-theme.html
+# After browser opens, run:
+screencapture -x -l $(osascript -e 'tell app "Safari" to id of window 1') /Users/danmaor/Projects/DID/claude-presentation/screenshots/brainstorm-theme.png
+
+# Or simpler — screenshot the whole screen:
+screencapture -x /Users/danmaor/Projects/DID/claude-presentation/screenshots/brainstorm-theme.png
+```
+
+Repeat for `approaches.html` → `brainstorm-approach.png` and `slide-structure-v2.html` → `brainstorm-structure.png`.
+
+- [ ] **Step 3: Verify images display in slide 25**
+
+Open `index.html`, navigate to slide 25. Images should appear in right column.
+
+- [ ] **Step 4: Commit screenshots**
+
+```bash
+git add screenshots/
+git commit -m "feat: add brainstorm session screenshots to meta slide"
+```
+
+---
+
+### Task 10: Final polish + audit
+
+**Files:**
+- Modify: `index.html`
+
+- [ ] **Step 1: Full run-through at 1920×1080**
+
+Open `index.html` in full-screen browser (F11). Step through all 27 slides. Check:
+- [ ] All amber accent bars visible
+- [ ] Terminal slides (7, 8, 11, 12, 13, 18) have dark bg + green text
+- [ ] Meta slides (25, 26) have violet accent
+- [ ] No broken images (screenshots present)
+- [ ] All links in Q&A slide open correct URLs
+- [ ] Tables don't overflow on slides 4, 6, 13, 14
+- [ ] Cards grids align cleanly
+
+- [ ] **Step 2: Check all plugin install commands are accurate**
+
+Verify each `<p class="install">` code matches the actual install command from `installed_plugins.json`:
+
+```
+superpowers     → /install superpowers@claude-plugins-official  ✓
+caveman         → /install caveman@caveman  ✓
+smart-model-router → /install smart-model-router@smart-model-router  ✓
+compound-engineering → /install compound-engineering@compound-engineering-plugin  ✓
+firecrawl       → /install firecrawl@firecrawl  ✓
+morph-compact   → /install morph-compact@morph  ✓
+buildpartner    → /install buildpartner@buildpartner  ✓
+codex           → /install codex@openai-codex  ✓
+ui-ux-pro-max   → /install ui-ux-pro-max@ui-ux-pro-max-skill  ✓
+security-guidance → /install security-guidance@claude-plugins-official  ✓
+skill-creator   → /install skill-creator@claude-plugins-official  ✓
+claude-powerline → /install claude-powerline@claude-powerline  ✓
+```
+
+- [ ] **Step 3: Verify pricing accuracy**
+
+Cross-check slide 13 prices at `https://anthropic.com/pricing`. Update if stale.
+
+- [ ] **Step 4: Final commit**
+
+```bash
+git add index.html
+git commit -m "polish: full deck audit and final touches"
+```
