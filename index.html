@@ -781,13 +781,13 @@ architecture → opus</code></pre>
   <div class="two-col" style="margin-top:12px">
     <div>
       <p>Global instructions Claude loads on every session. Lives at <code>~/.claude/CLAUDE.md</code>. Merges with project-level <code>CLAUDE.md</code> if present.</p>
-      <p style="margin-top:10px"><strong>My 5 rules:</strong></p>
+      <p style="margin-top:10px"><strong>Karpathy's 4 rules + 1 of mine:</strong></p>
       <ol style="margin-top:4px">
         <li><strong>Think Before Coding</strong> — surface assumptions, no silent picks, ask when unclear</li>
         <li><strong>Simplicity First</strong> — min code, no speculative features</li>
         <li><strong>Surgical Changes</strong> — touch only what must, no drive-by refactors</li>
         <li><strong>Goal-Driven Execution</strong> — verifiable success criteria, loop until met</li>
-        <li><strong>Research Before Building</strong> — search libs/APIs first, PRD-style report, then build</li>
+        <li><strong>Research Before Building</strong> <span class="amber" style="font-size:0.7em">(mine)</span> — hunt for open-source docs, GitHub repos, libs, APIs, CLIs first; PRD-style report; then build</li>
       </ol>
     </div>
     <div>
@@ -812,26 +812,30 @@ architecture → opus</code></pre>
   <h3>Built With Claude</h3>
   <h2>Real <span class="amber">Projects</span></h2>
   <div class="cards-grid cols-2" style="margin-top:20px">
-    <div class="card">
-      <h4>RecipEasy</h4>
+    <a class="card" href="http://localhost:3000" target="_blank" style="text-decoration:none;color:inherit;display:block">
+      <h4>RecipEasy <span class="amber" style="font-size:0.55em">▶ live</span></h4>
       <p>Import recipes from Instagram, TikTok, YouTube, blogs. AI scrapes structured data, calculates nutrition, generates shopping lists.</p>
       <p class="muted" style="margin-top:6px">Web app · AI extraction · nutrition API</p>
-    </div>
-    <div class="card">
-      <h4>LiveTrigger</h4>
+      <p class="amber" style="margin-top:4px;font-size:0.6em">→ localhost:3000</p>
+    </a>
+    <a class="card" href="file:///Users/danmaor/Projects/DID/video-triggering-system/releases/alpha-v0.1.3/LiveTrigger.app" target="_blank" style="text-decoration:none;color:inherit;display:block">
+      <h4>LiveTrigger <span class="amber" style="font-size:0.55em">▶ launch</span></h4>
       <p>macOS live performance system. Plays audio & video segments, layers video art. Zero-latency MIDI → playback with overlays.</p>
       <p class="muted" style="margin-top:6px">macOS · MIDI · SwiftUI · ~2.7ms latency</p>
-    </div>
-    <div class="card">
-      <h4>Closing-Time</h4>
+      <p class="amber" style="margin-top:4px;font-size:0.6em">→ alpha-v0.1.3</p>
+    </a>
+    <a class="card" href="file:///Users/danmaor/Projects/DID/closing-time/out/closing-time.mp4" target="_blank" style="text-decoration:none;color:inherit;display:block">
+      <h4>Closing-Time <span class="amber" style="font-size:0.55em">▶ play video</span></h4>
       <p>Music video generator. Record audio, compose with Claude, render visuals with Remotion. AI-powered music video creation.</p>
       <p class="muted" style="margin-top:6px">Remotion · React · Claude composition · music video</p>
-    </div>
-    <div class="card">
-      <h4>SamplePad Manager OSX</h4>
+      <p class="amber" style="margin-top:4px;font-size:0.6em">→ out/closing-time.mp4</p>
+    </a>
+    <a class="card" href="file:///Users/danmaor/Projects/DID/SamplePadManager-OSX/swift-app/build/SamplePadManager.app" target="_blank" style="text-decoration:none;color:inherit;display:block">
+      <h4>SamplePad Manager OSX <span style="color:#f87171;font-size:0.55em">⚠ under development</span></h4>
       <p>Native macOS app for managing Alesis SamplePad Pro. USB MIDI controller interface, sample library management, live gig mode.</p>
       <p class="muted" style="margin-top:6px">Swift · SwiftUI · Core Data · MIDI</p>
-    </div>
+      <p class="amber" style="margin-top:4px;font-size:0.6em">→ latest build</p>
+    </a>
   </div>
 </section>
 
